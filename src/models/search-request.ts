@@ -10,7 +10,7 @@ const searchRequestSchema = z.object({
 export class SearchRequest {
   public text: string;
 
-  public apikey: string;
+  public apikey?: string;
 
   public focus?: string;
 
@@ -20,7 +20,7 @@ export class SearchRequest {
     focus,
   }: {
     text: string;
-    apikey: string;
+    apikey?: string;
     focus?: [Latitude, Longitude];
   }) {
     this.text = text;

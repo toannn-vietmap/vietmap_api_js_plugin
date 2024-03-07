@@ -1,8 +1,8 @@
 {
   "name": "@vietmap/vietmap-api",
-  "version": "0.0.1-pre-1",
+  "version": "0.0.1-pre-6",
   "description": "Vietmap api package",
-  "main": "./dist/vietmap-api.js",
+  "main": "./src/vietmap-api.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/vietmap-company/vietmap_api_react_native.git"
@@ -17,7 +17,7 @@
   "author": {
     "name": "Vietmap"
   },
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "scripts": {
     "tsc:build": "rm -rf ./dist && tsc",
     "tsc:check": "tsc --noEmit",

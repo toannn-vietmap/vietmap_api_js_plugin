@@ -3,19 +3,19 @@
 With npm:
 
 ```bash
-npm install --save vietmap-api
+npm install --save @vietmap/vietmap-api
 ```
 
 With Yarn:
 
 ```bash
-yarn add vietmap-api
+yarn add @vietmap/vietmap-api
 ```
 
 With pnpm:
 
 ```bash
-pnpm add vietmap-api
+pnpm add @vietmap/vietmap-api
 ```
 
 ## Usage
@@ -38,13 +38,7 @@ const VietmapApi = new VietmapApi({ apiKey: VIETMAP_API_KEY, })
 
 Both of them use to convert geographical coordinates to address details. the only difference is in response time. *
 *FastReverse** is about 20ms and **Reverse** api is around 70ms.
-
-```typescript
-const reverseResponse = await vietmapApi.fastReverse({
-  latitude: 35.72379,
-  longitude: 51.33417,
-});
-```
+ 
 
 ```typescript
 const reverseResponse = await vietmapApi.reverse({
@@ -62,12 +56,12 @@ of the entered information with existing data and suggests the closest and most 
 ```typescript
 
 const searchResponseList = await vietmapApi.search(
-  new SearchRequest({ text: 'صادقیه' }),
+  new SearchRequest({ text: 'Vietmap' }),
 );
 ```
 
 ```typescript
 const autoCompleteSearchResponseList = await vietmapApi.autoCompleteSearch(
-  new SearchRequest({ text: 'صادقیه' }),
+  new SearchRequest({ text: 'Vietmap' }),
 );
 ```

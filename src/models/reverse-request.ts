@@ -11,7 +11,7 @@ export class ReverseRequest {
 
   public longitude: number;
 
-  public apikey: string;
+  public apikey?: string;
 
   public constructor({
     latitude,
@@ -20,13 +20,14 @@ export class ReverseRequest {
   }: {
     latitude: number;
     longitude: number;
-    apikey: string;
+    apikey?: string;
   }) {
     this.latitude = latitude;
     this.longitude = longitude;
     this.apikey = apikey;
     ReverseRequest.constructorValidator().parse(this);
   }
+ 
 
   public static constructorValidator() {
     return ReverseRequestSchema;

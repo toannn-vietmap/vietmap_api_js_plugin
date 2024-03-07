@@ -10,6 +10,7 @@ const reverseResponseSchema = z.object({
   name: z.string(),
   display: z.string(),
   boundaries: z.array(boundaryResponseSchema),
+  categories: z.array(z.string()),
 });
 
 export class ReverseResponse {
@@ -27,7 +28,9 @@ export class ReverseResponse {
 
   private readonly _display: string;
 
-  private readonly _boundaries: Array<Boundary>;
+  private readonly _boundaries: Boundary[];
+
+  private readonly _categories: string[];
 
   public constructor({
     address,
@@ -38,6 +41,7 @@ export class ReverseResponse {
     name,
     display,
     boundaries,
+    categories
   }: {
     address: string;
     lat: number;
@@ -46,7 +50,8 @@ export class ReverseResponse {
     distance: number;
     name: string;
     display: string;
-    boundaries: Array<Boundary>;
+    boundaries: Boundary[];
+    categories: string[]
   }) {
     this._address = address;
     this._lat = lat;
@@ -56,13 +61,14 @@ export class ReverseResponse {
     this._name = name;
     this._display = display;
     this._boundaries = boundaries;
+    this._categories = categories
   }
 
   public static constructorValidator() {
     return reverseResponseSchema;
   }
 
-  public static fromJSON(json: TSJSON) {
+  public static fromJSON(json: TSJSON) { 
     const validJSON = this.constructorValidator().parse(json);
     return new ReverseResponse(validJSON);
   }
@@ -97,5 +103,8 @@ export class ReverseResponse {
 
   public get distance(): number {
     return this._distance;
+  }
+  public get categories(): string[]{
+    return this._categories
   }
 }

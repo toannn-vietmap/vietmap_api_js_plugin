@@ -7,6 +7,8 @@ const searchResponseSchema = z.object({
   name: z.string(),
   display: z.string(),
   boundaries: z.array(boundaryResponseSchema),
+
+  categories: z.array(z.string()),
 });
 export class SearchResponse {
   public ref_id: string;
@@ -17,26 +19,30 @@ export class SearchResponse {
 
   public display: string;
 
-  public boundaries: Array<Boundary>;
+  public boundaries: Boundary[];
 
+  public categories: string[];
   public constructor({
     ref_id,
     address,
     name,
     display,
     boundaries,
+    categories
   }: {
     ref_id: string;
     address: string;
     name: string;
     display: string;
-    boundaries: Array<Boundary>;
+    boundaries: Boundary[];
+    categories: string[]
   }) {
     this.ref_id = ref_id;
     this.address = address;
     this.name = name;
     this.display = display;
     this.boundaries = boundaries;
+    this.categories = categories
   }
 
   public static constructorValidator() {

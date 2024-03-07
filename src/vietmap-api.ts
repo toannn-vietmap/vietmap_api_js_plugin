@@ -1,6 +1,5 @@
-import Axios, { AxiosHeaders, AxiosInstance, AxiosResponse } from 'axios';
-import {
-  VietmapApiHeaders as VietmapApiHeaders,
+import Axios, {  AxiosInstance, AxiosResponse } from 'axios';
+import { 
   ReverseRequest,
   ReverseResponse,
   SearchRequest,
@@ -10,8 +9,7 @@ import { TSJSON, TSearchResponse } from './types';
 
 export class VietmapApi {
   private _axios: AxiosInstance;
-
-  // private _headers: VietmapApiHeaders;
+  private _apiKey: string
 
   public constructor({
     apiKey,
@@ -20,62 +18,75 @@ export class VietmapApi {
     apiKey: string;
     baseURL?: string;
   }) {
-    // this._headers = new VietmapApiHeaders(apiKey);
+    this._apiKey = apiKey
     this._axios = Axios.create({
       baseURL,
     });
   }
 
-  public search(inputs: SearchRequest): Promise<Array<SearchResponse>> {
+  public search(inputs: SearchRequest): Promise<SearchResponse[]> {
+    inputs.apikey ??= this._apiKey 
+
     return this._axios
-      .post<
-        TSearchResponse,
-        AxiosResponse<TSearchResponse>,
+      .get<
+      TSJSON,
+        AxiosResponse<TSJSON[]>,
         SearchRequest
-      >('/api/search/v3', inputs)
-      .then((response: AxiosResponse<TSearchResponse>) => {
-        return response.data.value.map((item: TSJSON) =>
+      >('/api/search/v3',   {params: inputs})
+      .then((response: AxiosResponse<TSJSON[]>) => {
+        return response.data.map((item: TSJSON) =>
           SearchResponse.fromJSON(item),
         );
       });
   }
 
   public autoCompleteSearch(
-    inputs: SearchRequest,
-  ): Promise<Array<SearchResponse>> {
+    inputs: SearchRequest
+  ): Promise<SearchResponse[]> {
+  
     return this._axios
-      .post<
+      .get<
         TSearchResponse,
-        AxiosResponse<TSearchResponse>,
+        AxiosResponse<TSJSON[]>,
         SearchRequest
-      >('/api/autocomplete/v3', inputs)
-      .then((response) => {
-        return response.data.value.map((item: TSJSON) =>
-          SearchResponse.fromJSON(item),
+      >('/api/autocomplete/v3',  {params: inputs})
+      .then((response: AxiosResponse<TSJSON[]>) => {
+        return response.data.map((item: TSJSON) => 
+           SearchResponse.fromJSON(item)
         );
       });
   }
 
   public reverse(inputs: ReverseRequest): Promise<ReverseResponse> {
+
+    const req = new ReverseRequest(
+      {
+        latitude: inputs.latitude,
+        longitude: inputs.longitude,
+        apikey: inputs.apikey??this._apiKey
+      }
+    )
     return this._axios
-      .get<TSJSON, AxiosResponse<TSJSON>>(`/api/reverse/v3`, {
+      .get<TSJSON, AxiosResponse<TSJSON[]>>(`/api/reverse/v3`, {
         params: {
-          lat: inputs.latitude,
-          lon: inputs.longitude,
-          apikey: inputs.apikey,
-        },
+          lat: req.latitude,
+          lng: req.longitude,
+          apikey: req.apikey
+        }
       })
-      .then((response: AxiosResponse<TSJSON>) =>
-        ReverseResponse.fromJSON(response.data),
+      .then((response: AxiosResponse<TSJSON[]>) =>
+        ReverseResponse.fromJSON(response.data[0])
       );
   }
-  public vietmapStyleUrl(apikey: string): string {
+  public vietmapStyleUrl(apiKey?: string): string {
+    const apikey = apiKey??this._apiKey
     return `https://maps.vietmap.vn/api/maps/light/styles.json?apikey=${apikey}`;
   }
   public vietmapRasterTile(
-    apikey: string,
+    apiKey?: string,
     mode?: 'default' | 'light' | 'dark',
   ): string {
+    const apikey = apiKey??this._apiKey
     if (mode == 'dark')
       return `https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=${apikey}`;
     if (mode == 'light')

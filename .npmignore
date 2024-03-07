@@ -5,4 +5,4 @@ node_modules
 .eslintignore
 .idea
 .env
-src
+# src
