@@ -1,3 +1,12 @@
+
+A Dart package for using the [VietMap APIs](https://maps.vietmap.vn/docs/map-api/overview/) in JS/TS.
+
+# Vietmap API plugin
+
+[<img src="https://bizweb.dktcdn.net/100/415/690/themes/804206/assets/logo.png?1689561872933" height="40"/> </p>](https://vietmap.vn/maps-api)
+
+Contact [vietmap.vn](https://bit.ly/vietmap-api) to register a valid key.
+
 ## Installation
 
 With npm:
@@ -20,25 +29,22 @@ pnpm add @vietmap/vietmap-api
 
 ## Usage
 
-Import VietmapApi:
+### Import VietmapApi:
 
 ```typescript
-import { VietmapApi } from 'vietmap-api';
+import { VietmapApi } from '@vietmap/vietmap-api';
 ```
 
 Create an instance using apiKey:
 
 ```typescript
-const VietmapApi = new VietmapApi({ apiKey: VIETMAP_API_KEY, })
+const VietmapApi = new VietmapApi({ apiKey: VIETMAP_API_KEY })
 ```
 
 ## Examples
 
-### Reverse and FastReverse
-
-Both of them use to convert geographical coordinates to address details. the only difference is in response time. *
-*FastReverse** is about 20ms and **Reverse** api is around 70ms.
- 
+### Reverse and 
+Updating Reverse 3.0 API is a valuable resource for developers who want to incorporate location search features into their applications while achieving optimal performance. With its intelligent search algorithms and techniques, this latest version can swiftly deliver precise search results for users. This API is a powerful tool that can help enhance the user experience of location-based applications.
 
 ```typescript
 const reverseResponse = await vietmapApi.reverse({
@@ -47,12 +53,20 @@ const reverseResponse = await vietmapApi.reverse({
 });
 ```
 
-### Search and  AutoCompleteSearch
+### AutoCompleteSearch
+Updating Autocomplete 3.0 API is a valuable resources that allows developers to integrate autocomplete functionality into their applications. This API is designed to help users quickly find and select items from a large set of options by suggesting potential matches as they type.
 
-We use them in order to find places based on your desired text. The differences of them is only related to search
-algorithm. Such that search api find places exactly equal to the text but autocomplete api search location matches part
-of the entered information with existing data and suggests the closest and most likely results.
+The API is built on a machine learning model that analyzes user input and suggests potential matches based on the context of the search. This model can be updated in real-time, allowing the API to continuously improve its suggestions as more data becomes available.
 
+
+```typescript
+const autoCompleteSearchResponseList = await vietmapApi.autoCompleteSearch(
+  new SearchRequest({ text: 'Vietmap' }),
+);
+```
+
+### Search - Geocode
+Updating Geocode 3.0 API is a powerful tool for developers to integrate location search functionality into their applications with optimized performance. Additionally, this latest version utilizes intelligent search algorithms and methods to provide accurate and speedy search results for users.
 ```typescript
 
 const searchResponseList = await vietmapApi.search(
@@ -60,8 +74,16 @@ const searchResponseList = await vietmapApi.search(
 );
 ```
 
-```typescript
-const autoCompleteSearchResponseList = await vietmapApi.autoCompleteSearch(
-  new SearchRequest({ text: 'Vietmap' }),
-);
-```
+
+
+[<img src="https://bizweb.dktcdn.net/100/415/690/themes/804206/assets/logo.png?1689561872933" height="40"/> </p>](https://vietmap.vn/maps-api)
+Email us: [maps-api.support@vietmap.vn](mailto:maps-api.support@vietmap.vn)
+
+
+
+Contact for [support](https://vietmap.vn/lien-he)
+
+Vietmap API document [here](https://maps.vietmap.vn/docs/map-api/overview/)
+
+Have a bug to report? [Open an issue](https://github.com/vietmap-company/vietmap_api_react_native/issues). If possible, include a full log and information that shows the issue.
+Have a feature request? [Open an issue](https://github.com/vietmap-company/vietmap_api_react_native/issues). Tell us what the feature should do and why you want the feature.
