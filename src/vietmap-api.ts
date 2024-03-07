@@ -22,10 +22,7 @@ export class VietmapApi {
   }) {
     // this._headers = new VietmapApiHeaders(apiKey);
     this._axios = Axios.create({
-      baseURL, 
-      headers: new AxiosHeaders({ 
-        'content-type': 'application/json',
-      }),
+      baseURL,
     });
   }
 
@@ -52,11 +49,12 @@ export class VietmapApi {
         AxiosResponse<TSearchResponse>,
         SearchRequest
       >('/api/autocomplete/v3', inputs)
-      .then((response) =>
-        response.data.value.map((item: TSJSON) => SearchResponse.fromJSON(item)),
-      );
+      .then((response) => {
+        return response.data.value.map((item: TSJSON) =>
+          SearchResponse.fromJSON(item),
+        );
+      });
   }
- 
 
   public reverse(inputs: ReverseRequest): Promise<ReverseResponse> {
     return this._axios
@@ -64,11 +62,25 @@ export class VietmapApi {
         params: {
           lat: inputs.latitude,
           lon: inputs.longitude,
-          apikey: inputs.apikey
+          apikey: inputs.apikey,
         },
       })
       .then((response: AxiosResponse<TSJSON>) =>
         ReverseResponse.fromJSON(response.data),
       );
   }
+  public vietmapStyleUrl(apikey: string): string {
+    return `https://maps.vietmap.vn/api/maps/light/styles.json?apikey=${apikey}`;
+  }
+  public vietmapRasterTile(
+    apikey: string,
+    mode?: 'default' | 'light' | 'dark',
+  ): string {
+    if (mode == 'dark')
+      return `https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=${apikey}`;
+    if (mode == 'light')
+      return `https://maps.vietmap.vn/api/lm/{z}/{x}/{y}@2x.png?apikey=${apikey}`;
+    return `https://maps.vietmap.vn/api/tm/{z}/{x}/{y}@2x.png?apikey=${apikey}`;
+  }
+
 }

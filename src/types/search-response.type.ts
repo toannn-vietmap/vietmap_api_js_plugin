@@ -1,4 +1,4 @@
-import { Boundary } from "models/boundary";
+import { Boundary } from 'models/boundary';
 export interface TSearchResponse {
   'odata.count': number;
   value: Array<{
@@ -6,6 +6,6 @@ export interface TSearchResponse {
     address: string;
     name: string;
     display: string;
-    boundaries: Boundary[];
+    boundaries: Array<Boundary>;
   }>;
 }

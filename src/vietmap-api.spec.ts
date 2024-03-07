@@ -20,29 +20,36 @@ describe('Vietmap Api Module', () => {
     });
   });
 
-  // test('Reverse api', async () => {
-  //   const latitude = 35.71619;
-  //   const longitude = 51.36247;
-  //   const res = await vietmapApi.reverse({
-  //     latitude,
-  //     longitude,
-  //     '6411732992b3c4def7a117893215b9163a15e69065c0874d'
-  //   });
-  //   expect(res).toBeInstanceOf(ReverseResponse);
-  // });
+  test('Reverse api', async () => {
+    const latitude = 35.71619;
+    const longitude = 51.36247;
+    const apikey = envVariables.VIETMAP_API_KEY
+    
+    const res = await vietmapApi.reverse({
+      latitude,
+      longitude, 
+      apikey
+    })
+    .then((value)=>{
+      expect(value).toBeInstanceOf(ReverseResponse)
+    })
+    // expect(res).toBeInstanceOf(ReverseResponse)
+  });
  
 
-  test('Search api', async () => {
-    const searchResponseList = await vietmapApi.search(
-      new SearchRequest({ text: 'VIetmap', apikey: '6411732992b3c4def7a117893215b9163a15e69065c0874d', focus:[10, 106] }),
-    );
-    expect(searchResponseList[0]).toBeInstanceOf(SearchResponse);
+  test('Search api', async () => { 
+     vietmapApi.search(
+      new SearchRequest({ text: 'VIetmap', apikey: envVariables.VIETMAP_API_KEY}),
+    ).then((searchResponseList)=>{ 
+      expect(searchResponseList[0]).toBeInstanceOf(SearchResponse);
+    })
+    
   });
 
-  test('Autocomplete Search api', async () => {
-    const autoCompleteSearchResponseList = await vietmapApi.autoCompleteSearch(
-      new  SearchRequest({ text: 'VIetmap', apikey: '6411732992b3c4def7a117893215b9163a15e69065c0874d', focus:[10, 106] }),
-    );
-    expect(autoCompleteSearchResponseList[0]).toBeInstanceOf(SearchResponse);
+  test('Autocomplete Search api', async () => { vietmapApi.autoCompleteSearch(
+      new  SearchRequest({ text: 'VIetmap', apikey: envVariables.VIETMAP_API_KEY, focus:[10, 106] }),
+    ).then((autoCompleteSearchResponseList)=>{ 
+      expect(autoCompleteSearchResponseList[0]).toBeInstanceOf(SearchResponse);
+    })
   });
 });

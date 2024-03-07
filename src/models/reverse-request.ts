@@ -11,20 +11,20 @@ export class ReverseRequest {
 
   public longitude: number;
 
-  public apikey: string
+  public apikey: string;
 
   public constructor({
     latitude,
     longitude,
-    apikey
+    apikey,
   }: {
     latitude: number;
     longitude: number;
-    apikey: string
+    apikey: string;
   }) {
     this.latitude = latitude;
     this.longitude = longitude;
-    this.apikey = apikey
+    this.apikey = apikey;
     ReverseRequest.constructorValidator().parse(this);
   }
 
