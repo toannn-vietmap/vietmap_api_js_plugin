@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { z } from 'zod';
 import { VietmapApi } from './vietmap-api';
-import { ReverseResponse, SearchRequest, SearchResponse } from './models';
+import { ReverseResponse, RouteRequest, RouteResponse, SearchRequest, SearchResponse } from './models';
 
 dotenv.config();
 
@@ -18,18 +18,18 @@ describe('Vietmap Api Module', () => {
 
 
   beforeAll(() => {
-    vietmapApi = new VietmapApi({
-      apiKey: envVariables.VIETMAP_API_KEY,
+    vietmapApi = new VietmapApi({ 
     })
   })
 
   test('Reverse api', async () => {
     const latitude = 35.71619;
     const longitude = 51.36247; 
-    
+    const apikey = envVariables.VIETMAP_API_KEY
    const res = await vietmapApi.reverse({
       latitude,
-      longitude
+      longitude,
+      apikey
     }) 
     expect(res).toBeInstanceOf(ReverseResponse)
   })
@@ -39,6 +39,14 @@ describe('Vietmap Api Module', () => {
       new SearchRequest({ text: 'Vietmap',apikey: envVariables.VIETMAP_API_KEY,}),
     ) 
     expect(res[0]).toBeInstanceOf(SearchResponse)
+  })
+
+  test('Route api', async () => { 
+    const res = await vietmapApi.route(
+      [[10.79628438955497,106.70592293472612], [10.801891047584164,106.70660958023404]],
+      new RouteRequest({ vehicle: 'car',apikey: envVariables.VIETMAP_API_KEY,points_encoded: false, optimize:true}),
+    ) 
+    expect(res).toBeInstanceOf(RouteResponse)
   })
 
   test('Autocomplete Search api', async () => {

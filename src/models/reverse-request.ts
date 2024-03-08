@@ -4,6 +4,7 @@ import { latitudeSchema, longitudeSchema } from '../schema';
 const ReverseRequestSchema = z.object({
   latitude: latitudeSchema,
   longitude: longitudeSchema,
+  apikey: z.string()
 });
 
 export class ReverseRequest {

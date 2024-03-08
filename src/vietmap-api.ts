@@ -1,38 +1,38 @@
-import Axios, {  AxiosInstance, AxiosResponse } from 'axios';
-import { 
+import Axios, {
+  AxiosInstance,
+  AxiosResponse
+} from 'axios';
+
+import {
   ReverseRequest,
   ReverseResponse,
   SearchRequest,
+  RouteRequest,
   SearchResponse,
+  RouteResponse,
 } from './models';
-import { TSJSON, TSearchResponse } from './types';
+import { TSJSON, TSearchResponse, Latitude, Longitude } from './types'; 
 
 export class VietmapApi {
   private _axios: AxiosInstance;
-  private _apiKey: string
 
   public constructor({
-    apiKey,
     baseURL = 'https://maps.vietmap.vn',
   }: {
-    apiKey: string;
     baseURL?: string;
   }) {
-    this._apiKey = apiKey
     this._axios = Axios.create({
       baseURL,
     });
   }
 
   public search(inputs: SearchRequest): Promise<SearchResponse[]> {
-    inputs.apikey ??= this._apiKey 
-
     return this._axios
       .get<
-      TSJSON,
+        TSJSON,
         AxiosResponse<TSJSON[]>,
         SearchRequest
-      >('/api/search/v3',   {params: inputs})
+      >('/api/search/v3', { params: inputs })
       .then((response: AxiosResponse<TSJSON[]>) => {
         return response.data.map((item: TSJSON) =>
           SearchResponse.fromJSON(item),
@@ -40,58 +40,72 @@ export class VietmapApi {
       });
   }
 
-  public autoCompleteSearch(
-    inputs: SearchRequest
-  ): Promise<SearchResponse[]> {
-  
+  public autoCompleteSearch(inputs: SearchRequest): Promise<SearchResponse[]> {
     return this._axios
       .get<
         TSearchResponse,
         AxiosResponse<TSJSON[]>,
         SearchRequest
-      >('/api/autocomplete/v3',  {params: inputs})
+      >('/api/autocomplete/v3', { params: inputs })
       .then((response: AxiosResponse<TSJSON[]>) => {
-        return response.data.map((item: TSJSON) => 
-           SearchResponse.fromJSON(item)
+        return response.data.map((item: TSJSON) =>
+          SearchResponse.fromJSON(item),
         );
       });
   }
 
   public reverse(inputs: ReverseRequest): Promise<ReverseResponse> {
-
-    const req = new ReverseRequest(
-      {
-        latitude: inputs.latitude,
-        longitude: inputs.longitude,
-        apikey: inputs.apikey??this._apiKey
-      }
-    )
     return this._axios
       .get<TSJSON, AxiosResponse<TSJSON[]>>(`/api/reverse/v3`, {
         params: {
-          lat: req.latitude,
-          lng: req.longitude,
-          apikey: req.apikey
-        }
+          lat: inputs.latitude,
+          lng: inputs.longitude,
+          apikey: inputs.apikey,
+        },
       })
       .then((response: AxiosResponse<TSJSON[]>) =>
-        ReverseResponse.fromJSON(response.data[0])
+        ReverseResponse.fromJSON(response.data[0]),
       );
   }
-  public vietmapStyleUrl(apiKey?: string): string {
-    const apikey = apiKey??this._apiKey
+
+  private convertPointsToUrlParams(points: [Latitude, Longitude][]): string {
+    if (!points || points.length === 0) {
+      return '';
+    }
+
+    const paramsString = points
+      .map(([lat, long]) => `&point=${lat},${long}`)
+      .join('');
+    return paramsString;
+  }
+
+  public route(
+    points: [Latitude, Longitude][],
+    inputs?: RouteRequest,
+  ): Promise<RouteResponse> {
+    var pointReq = this.convertPointsToUrlParams(points);
+    return this._axios
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON>
+      >(`/api/route?api-version=1.1${pointReq}`, { params: inputs })
+      .then((response: AxiosResponse<TSJSON>) => {
+        return  RouteResponse.fromJSON(response.data)
+        
+      });
+  }
+  public vietmapStyleUrl(apiKey: string): string {
+    const apikey = apiKey;
     return `https://maps.vietmap.vn/api/maps/light/styles.json?apikey=${apikey}`;
   }
   public vietmapRasterTile(
-    apiKey?: string,
+    apikey: string,
     mode?: 'default' | 'light' | 'dark',
   ): string {
-    const apikey = apiKey??this._apiKey
     if (mode == 'dark')
       return `https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=${apikey}`;
     if (mode == 'light')
       return `https://maps.vietmap.vn/api/lm/{z}/{x}/{y}@2x.png?apikey=${apikey}`;
     return `https://maps.vietmap.vn/api/tm/{z}/{x}/{y}@2x.png?apikey=${apikey}`;
   }
-
 }
