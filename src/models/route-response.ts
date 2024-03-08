@@ -19,9 +19,9 @@ const pathSchema = z.object({
   transfers: z.number(),
   points_encoded: z.boolean(),
   bbox: z.array(z.number()),
-  points: z.any(),
+  points: z.string(),
   instructions: z.array(instructionSchema),
-  snapped_waypoints: z.any(),
+  snapped_waypoints: z.string(),
 });
 
 const responseSchema = z.object({
@@ -86,9 +86,9 @@ class Path {
   transfers: number;
   points_encoded: boolean;
   bbox: number[];
-  points: any;
+  points: string;
   instructions: Instruction[];
-  snapped_waypoints: any;
+  snapped_waypoints: String;
 
   constructor({
     distance,
@@ -107,9 +107,9 @@ class Path {
     transfers: number;
     points_encoded: boolean;
     bbox: number[];
-    points: any;
+    points: string;
     instructions: Instruction[];
-    snapped_waypoints: any;
+    snapped_waypoints: string;
   }) {
     this.distance = distance;
     this.weight = weight;
