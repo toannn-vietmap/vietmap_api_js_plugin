@@ -77,9 +77,10 @@ const searchResponseList = await vietmapApi.search(
 A Route Maps API is a feature provided by VIETMAP that allows developers to calculate and display the optimal route between two or more locations on a map. With a Route Maps API, developers can specify the start and end points of a journey, along with any additional constraints such as preferred mode of transportation, and retrieve a detailed route that can be displayed on a map. The API may also provide information such as the total distance, estimated travel time, and turn-by-turn directions. Developers can use Route Maps APIs to create applications that help with navigation, transportation planning, and logistics management.
 
 ```typescript
-    const res = await vietmapApi.autoCompleteSearch(
-      new  SearchRequest({ text: 'Vietmap', apikey: envVariables.VIETMAP_API_KEY, focus:[10, 106] }),
-    )
+    const res = await vietmapApi.route(
+      [[10.79628438955497,106.70592293472612], [10.801891047584164,106.70660958023404]],
+      new RouteRequest({ vehicle: 'car',apikey: envVariables.VIETMAP_API_KEY,points_encoded: true, optimize:true}),
+    ) 
 ```
 
 ### Polyline decode
