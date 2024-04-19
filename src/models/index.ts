@@ -5,3 +5,5 @@ export * from './search-response';
 export * from './vietmap-api-headers';
 export * from './route-request'
 export * from './route-response'
+export * from './place-response'
+export * from './place-request'

@@ -43,7 +43,7 @@ const VietmapApi = new VietmapApi({ apiKey: VIETMAP_API_KEY })
 
 ## Examples
 
-### Reverse and 
+### Reverse 
 Updating Reverse 3.0 API is a valuable resource for developers who want to incorporate location search features into their applications while achieving optimal performance. With its intelligent search algorithms and techniques, this latest version can swiftly deliver precise search results for users. This API is a powerful tool that can help enhance the user experience of location-based applications.
 
 ```typescript
@@ -61,7 +61,10 @@ The API is built on a machine-learning model that analyzes user input and sugges
 
 ```typescript
 const autoCompleteSearchResponseList = await vietmapApi.autoCompleteSearch(
-  new SearchRequest({ text: 'Vietmap' }),
+  new SearchRequest({ 
+    text: 'Vietmap',
+    apikey: envVariables.VIETMAP_API_KEY, 
+  }),
 );
 ```
 
@@ -70,8 +73,21 @@ Updating Geocode 3.0 API is a powerful tool for developers to integrate location
 ```typescript
 
 const searchResponseList = await vietmapApi.search(
-  new SearchRequest({ text: 'Vietmap' }),
+  new SearchRequest({ 
+      text: 'Vietmap',
+      apikey: envVariables.VIETMAP_API_KEY, 
+    }),
 );
+```
+### Place
+The Place API service endpoint provides detailed information about the Place found by its identifier (refId).
+```tsx
+  const res = await vietmapApi.place(
+      new PlaceRequest({
+        refId: 'vm:ADDRESS:8D92EB120DDE9996',
+        apikey
+      }),
+    );
 ```
 ### Routing
 A Route Maps API is a feature provided by VIETMAP that allows developers to calculate and display the optimal route between two or more locations on a map. With a Route Maps API, developers can specify the start and end points of a journey, along with any additional constraints such as preferred mode of transportation, and retrieve a detailed route that can be displayed on a map. The API may also provide information such as the total distance, estimated travel time, and turn-by-turn directions. Developers can use Route Maps APIs to create applications that help with navigation, transportation planning, and logistics management.
@@ -79,7 +95,12 @@ A Route Maps API is a feature provided by VIETMAP that allows developers to calc
 ```typescript
     const res = await vietmapApi.route(
       [[10.79628438955497,106.70592293472612], [10.801891047584164,106.70660958023404]],
-      new RouteRequest({ vehicle: 'car',apikey: envVariables.VIETMAP_API_KEY,points_encoded: true, optimize:true}),
+      new RouteRequest({ 
+        vehicle: 'car',
+        apikey: envVariables.VIETMAP_API_KEY,
+        points_encoded: true, 
+        optimize:true
+      }),
     ) 
 ```
 

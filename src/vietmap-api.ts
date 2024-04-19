@@ -3,15 +3,16 @@ import Axios, {
   AxiosResponse
 } from 'axios';
 
-import {
+import {PlaceRequest,
   ReverseRequest,
   ReverseResponse,
   SearchRequest,
   RouteRequest,
   SearchResponse,
   RouteResponse,
+  PlaceResponse
 } from './models';
-import { TSJSON, TSearchResponse, Latitude, Longitude } from './types'; 
+import { TSJSON, TSearchResponse,TPlaceResponse, Latitude, Longitude } from './types'; 
 
 export class VietmapApi {
   private _axios: AxiosInstance;
@@ -37,6 +38,19 @@ export class VietmapApi {
         return response.data.map((item: TSJSON) =>
           SearchResponse.fromJSON(item),
         );
+      });
+  }
+
+
+  public place(inputs: PlaceRequest): Promise<PlaceResponse> {
+    return this._axios
+      .get<
+        TPlaceResponse,
+        AxiosResponse<TSJSON>,
+        PlaceRequest
+      >('/api/place/v3', { params: inputs })
+      .then((response: AxiosResponse<TSJSON>) => {
+        return PlaceResponse.fromJSON(response.data);
       });
   }
 
