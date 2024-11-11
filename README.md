@@ -1,5 +1,5 @@
 
-A Dart package for using the [VietMap APIs](https://maps.vietmap.vn/docs/map-api/overview/) in JS/TS.
+A package for using the [VietMap APIs](https://maps.vietmap.vn/docs/map-api/overview/) in JS/TS.
 
 # Vietmap API plugin
 
@@ -92,16 +92,36 @@ The Place API service endpoint provides detailed information about the Place fou
 ### Routing
 A Route Maps API is a feature provided by VIETMAP that allows developers to calculate and display the optimal route between two or more locations on a map. With a Route Maps API, developers can specify the start and end points of a journey, along with any additional constraints such as preferred mode of transportation, and retrieve a detailed route that can be displayed on a map. The API may also provide information such as the total distance, estimated travel time, and turn-by-turn directions. Developers can use Route Maps APIs to create applications that help with navigation, transportation planning, and logistics management.
 
+The `optimize` param is used to enable TSP mode (Traveling Salesman Problem), you can view more about TSP [here](https://maps.vietmap.vn/docs/map-api/tsp/). For the normal case, please do not enable this param.
 ```typescript
     const res = await vietmapApi.route(
       [[10.79628438955497,106.70592293472612], [10.801891047584164,106.70660958023404]],
       new RouteRequest({ 
-        vehicle: 'car',
+        vehicle: 'motorcycle',
         apikey: envVariables.VIETMAP_API_KEY,
         points_encoded: true, 
-        optimize:true
+        optimize: false
       }),
     ) 
+```
+
+### Traveling Salesman Problem (TSP)
+The Traveling Salesman Problem (TSP) is a well-known mathematical problem in computer science and operations research. Given a set of cities and the distances between them, the TSP requires finding the shortest possible route that visits each city exactly once and returns to the starting city. This problem can be applied to the context of maps and routing, where the cities represent locations and the distances represent travel distances or travel times.
+
+```typescript
+  const res = await vietmapApi.tsp(
+    [
+      [10.79628438955497, 106.70592293472612],
+      [10.801891047584164, 106.70660958023404],
+    ],
+    new TSPRequest({
+      vehicle: 'car',
+      apikey: envVariables.VIETMAP_API_KEY,
+      points_encoded: true,
+      optimize: true,
+      round_trip: true,
+    }),
+  );
 ```
 
 ### Polyline decode
@@ -114,6 +134,11 @@ Note: VietMap route api response encrypted point in polyline 5 format, please
   const listLatLng = polyline.decode('c_hjS}s{`A{C}`@',5)
 ```
 
+If you need to decode the polyline with `[lng, lat]` output format, you can use the `decodeLongLat` function.
+```typescript
+  const polyline = new Polyline()
+  const listLatLng = polyline.decodeLongLat('c_hjS}s{`A{C}`@',5)
+```
 
 ### Split route by a latLng
 Split a route (contains a list of `latLng`), support for show driver tracking with the provided route. This function helps you split the provided route into 2 routes, one is driver traveled route, and one is the rest of the route. 
@@ -147,7 +172,7 @@ Split a route (contains a list of `latLng`), support for show driver tracking wi
       line as LatLng[],
       point as LatLng,
     ); 
-    
+
     /// The response is:
 
     expect(line1).toEqual([
@@ -178,6 +203,7 @@ Split a route (contains a list of `latLng`), support for show driver tracking wi
       [106.71056000000002, 10.797],
       [106.71071, 10.79738]])
 ```
+
 </br>
 </br>
 

@@ -12,6 +12,7 @@ import {
   RouteResponse,
   SearchRequest,
   SearchResponse,
+  TSPRequest,
 } from './models';
 import { Polyline } from './helper';
 dotenv.config();
@@ -363,5 +364,23 @@ describe('Vietmap Api Module', () => {
       }),
     );
     expect(res).toBeInstanceOf(PlaceResponse);
+  });
+ 
+
+  test('TSP api', async () => {
+    const res = await vietmapApi.tsp(
+      [
+        [10.79628438955497, 106.70592293472612],
+        [10.801891047584164, 106.70660958023404],
+      ],
+      new TSPRequest({
+        vehicle: 'car',
+        apikey: envVariables.VIETMAP_API_KEY,
+        points_encoded: true,
+        optimize: true,
+        round_trip: true,
+      }),
+    );
+    expect(res).toBeInstanceOf(RouteResponse);
   });
 });
