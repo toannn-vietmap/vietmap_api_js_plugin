@@ -10,7 +10,7 @@ import {PlaceRequest,
   RouteRequest,
   SearchResponse,
   RouteResponse,
-  PlaceResponse
+  PlaceResponse, TSPRequest
 } from './models';
 import { TSJSON, TSearchResponse,TPlaceResponse, Latitude, Longitude } from './types'; 
 
@@ -108,6 +108,24 @@ export class VietmapApi {
         
       });
   }
+
+
+  public tsp(
+    points: [Latitude, Longitude][],
+    inputs?: TSPRequest,
+  ): Promise<RouteResponse> {
+    var pointReq = this.convertPointsToUrlParams(points);
+    return this._axios
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON>
+      >(`/api/tsp?api-version=1.1${pointReq}`, { params: inputs })
+      .then((response: AxiosResponse<TSJSON>) => {
+        return  RouteResponse.fromJSON(response.data)
+        
+      });
+  }
+
   public vietmapStyleUrl(apiKey: string): string {
     const apikey = apiKey;
     return `https://maps.vietmap.vn/api/maps/light/styles.json?apikey=${apikey}`;
