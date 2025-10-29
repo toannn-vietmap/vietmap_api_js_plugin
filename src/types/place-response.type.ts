@@ -1,4 +1,3 @@
- 
 export interface TPlaceResponse {
   display: string;
   name: string;

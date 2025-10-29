@@ -11,11 +11,10 @@ const reverseRequestV4Schema = z.object({
 });
 
 export class ReverseRequestV4 extends ReverseRequest {
-
   public displayType?: ReverseDisplayType;
 
   public lat?: number;
-  
+
   public lng?: number;
 
   constructor({

@@ -5,5 +5,3 @@ export const VehicleSchema = z.union([
   z.literal('foot'),
   z.literal('motorcycle'),
 ]);
-
-

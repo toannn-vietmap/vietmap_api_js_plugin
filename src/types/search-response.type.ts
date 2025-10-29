@@ -6,6 +6,3 @@ export interface TSearchResponse {
   display: string;
   boundaries: Array<Boundary>;
 }
-
-
-

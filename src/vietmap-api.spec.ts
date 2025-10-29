@@ -30,7 +30,7 @@ const envVariables = z
   })
   .parse(process.env);
 
-  describe('Vietmap Api V4 Module', () => {
+describe('Vietmap Api V4 Module', () => {
   let vietmapApi: VietmapApi;
   var resSearchV4: SearchResponseV4[] = [];
 
@@ -327,7 +327,7 @@ describe('Vietmap Api Module', () => {
     const [line1, line2] = VietmapPolyline.splitRouteByLatLng(
       line as LatLng[],
       point as LatLng,
-    ); 
+    );
     expect(line1).toEqual([
       [106.70594000000001, 10.79631],
       [106.70664000000001, 10.79593],
@@ -476,7 +476,6 @@ describe('Vietmap Api Module', () => {
     );
     expect(res).toBeInstanceOf(PlaceResponse);
   });
- 
 
   test('TSP api', async () => {
     const res = await vietmapApi.tsp(

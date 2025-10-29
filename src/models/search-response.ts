@@ -28,21 +28,21 @@ export class SearchResponse {
     name,
     display,
     boundaries,
-    categories
+    categories,
   }: {
     ref_id: string;
     address: string;
     name: string;
     display: string;
     boundaries: Boundary[];
-    categories: string[]
+    categories: string[];
   }) {
     this.ref_id = ref_id;
     this.address = address;
     this.name = name;
     this.display = display;
     this.boundaries = boundaries;
-    this.categories = categories
+    this.categories = categories;
   }
 
   public static constructorValidator() {

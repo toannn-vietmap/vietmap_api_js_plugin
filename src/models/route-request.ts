@@ -1,12 +1,12 @@
 import { z } from 'zod';
 // import { VehicleSchema } from '../models';
 const VehicleSchema = z.union([
-    z.literal('car'),
-    z.literal('bike'),
-    z.literal('foot'),
-    z.literal('motorcycle'),
-  ]);
-  
+  z.literal('car'),
+  z.literal('bike'),
+  z.literal('foot'),
+  z.literal('motorcycle'),
+]);
+
 const RouteRequestSchema = z.object({
   points_encoded: z.boolean(),
   vehicle: VehicleSchema,

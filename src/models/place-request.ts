@@ -10,14 +10,7 @@ export class PlaceRequest {
 
   public apikey?: string;
 
-
-  public constructor({
-    refId,
-    apikey, 
-  }: {
-    refId: string;
-    apikey?: string; 
-  }) {
+  public constructor({ refId, apikey }: { refId: string; apikey?: string }) {
     this.refId = refId;
     this.apikey = apikey;
 

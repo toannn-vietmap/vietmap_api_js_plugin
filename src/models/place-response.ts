@@ -1,20 +1,19 @@
 import { z } from 'zod';
-import { TSJSON } from '../types'; 
+import { TSJSON } from '../types';
 const placeResponseSchema = z.object({
-
-    display: z.string(),
-    name: z.string(),
-    hs_num: z.string(),
-    street: z.string(),
-    address: z.string(),
-    city_id: z.number(),
-    city: z.string(),
-    district_id: z.number(),
-    district: z.string(),
-    ward_id: z.number(),
-    ward: z.string(),
-    lat: z.number(),
-    lng: z.number()
+  display: z.string(),
+  name: z.string(),
+  hs_num: z.string(),
+  street: z.string(),
+  address: z.string(),
+  city_id: z.number(),
+  city: z.string(),
+  district_id: z.number(),
+  district: z.string(),
+  ward_id: z.number(),
+  ward: z.string(),
+  lat: z.number(),
+  lng: z.number(),
 });
 export class PlaceResponse {
   public display: string;
@@ -57,21 +56,21 @@ export class PlaceResponse {
     ward_id: number;
     ward: string;
     lat: number;
-    lng: number
+    lng: number;
   }) {
-    this.display= display;
-    this.name=name;
-    this.hs_num=hs_num;
-    this.street=street;
-    this.address=address;
-    this.city_id=city_id;
-    this.city=city;
-    this.district_id=district_id;
-    this.district=district;
-    this.ward_id=ward_id;
-    this.ward=ward;
-    this.lat=lat;
-    this.lng=lng
+    this.display = display;
+    this.name = name;
+    this.hs_num = hs_num;
+    this.street = street;
+    this.address = address;
+    this.city_id = city_id;
+    this.city = city;
+    this.district_id = district_id;
+    this.district = district;
+    this.ward_id = ward_id;
+    this.ward = ward;
+    this.lat = lat;
+    this.lng = lng;
   }
 
   public static constructorValidator() {

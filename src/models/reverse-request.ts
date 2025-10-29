@@ -4,7 +4,7 @@ import { latitudeSchema, longitudeSchema } from '../schema';
 const ReverseRequestSchema = z.object({
   latitude: latitudeSchema,
   longitude: longitudeSchema,
-  apikey: z.string()
+  apikey: z.string(),
 });
 
 export class ReverseRequest {
@@ -28,7 +28,6 @@ export class ReverseRequest {
     this.apikey = apikey;
     ReverseRequest.constructorValidator().parse(this);
   }
- 
 
   public static constructorValidator() {
     return ReverseRequestSchema;

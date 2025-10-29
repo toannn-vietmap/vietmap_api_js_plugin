@@ -4,4 +4,4 @@ export * from './longitude.type';
 export * from './search-response.type';
 export * from './place-response.type';
 export * from './result-display.type';
-export * from './layer.type'
+export * from './layer.type';

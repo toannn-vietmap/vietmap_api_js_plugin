@@ -41,7 +41,7 @@ export class ReverseResponse {
     name,
     display,
     boundaries,
-    categories
+    categories,
   }: {
     address: string;
     lat: number;
@@ -51,7 +51,7 @@ export class ReverseResponse {
     name: string;
     display: string;
     boundaries: Boundary[];
-    categories: string[]
+    categories: string[];
   }) {
     this._address = address;
     this._lat = lat;
@@ -61,14 +61,14 @@ export class ReverseResponse {
     this._name = name;
     this._display = display;
     this._boundaries = boundaries;
-    this._categories = categories
+    this._categories = categories;
   }
 
   public static constructorValidator() {
     return reverseResponseSchema;
   }
 
-  public static fromJSON(json: TSJSON) { 
+  public static fromJSON(json: TSJSON) {
     const validJSON = this.constructorValidator().parse(json);
     return new ReverseResponse(validJSON);
   }
@@ -104,7 +104,7 @@ export class ReverseResponse {
   public get distance(): number {
     return this._distance;
   }
-  public get categories(): string[]{
-    return this._categories
+  public get categories(): string[] {
+    return this._categories;
   }
 }
