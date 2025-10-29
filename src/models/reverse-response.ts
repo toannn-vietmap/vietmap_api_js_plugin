@@ -32,7 +32,7 @@ export class ReverseResponse {
 
   private readonly _categories: string[];
 
-  public constructor({
+  constructor({
     address,
     lat,
     lng,
@@ -104,6 +104,7 @@ export class ReverseResponse {
   public get distance(): number {
     return this._distance;
   }
+
   public get categories(): string[] {
     return this._categories;
   }

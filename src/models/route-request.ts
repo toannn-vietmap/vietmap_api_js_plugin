@@ -15,10 +15,14 @@ const RouteRequestSchema = z.object({
 });
 export class RouteRequest {
   public points_encoded: boolean;
+
   public vehicle: 'car' | 'bike' | 'foot' | 'motorcycle';
+
   public optimize: boolean;
+
   public apikey: string;
-  public constructor({
+
+  constructor({
     apikey,
     points_encoded = true,
     vehicle = 'car',

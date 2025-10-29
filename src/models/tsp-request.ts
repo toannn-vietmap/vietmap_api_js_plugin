@@ -10,11 +10,16 @@ const TSPRequestSchema = z.object({
 });
 export class TSPRequest {
   public points_encoded: boolean;
+
   public vehicle: 'car' | 'bike' | 'foot' | 'motorcycle';
+
   public optimize: boolean;
+
   public apikey: string;
+
   public round_trip: boolean;
-  public constructor({
+
+  constructor({
     apikey,
     points_encoded = true,
     vehicle = 'car',

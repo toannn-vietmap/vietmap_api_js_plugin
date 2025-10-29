@@ -14,7 +14,7 @@ export class SearchRequest {
 
   public focus?: string;
 
-  public constructor({
+  constructor({
     text,
     apikey,
     focus,

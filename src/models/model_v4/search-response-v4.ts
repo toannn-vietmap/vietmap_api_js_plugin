@@ -33,7 +33,7 @@ export class SearchResponseV4 extends SearchResponse {
 
   public data_new?: SearchResponseV4;
 
-  public constructor({
+  constructor({
     ref_id,
     address,
     name,

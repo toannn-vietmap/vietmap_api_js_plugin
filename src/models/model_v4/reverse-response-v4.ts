@@ -33,7 +33,7 @@ export class ReverseResponseV4 extends ReverseResponse {
 
   public data_new?: ReverseResponseV4;
 
-  public constructor({
+  constructor({
     address,
     lat,
     lng,

@@ -1,4 +1,4 @@
-import { ZodError, z } from 'zod';
+import { z, ZodError } from 'zod';
 import { TSJSON } from '../types';
 
 const instructionSchema = z.object({
@@ -36,12 +36,19 @@ const responseSchema = z.object({
 
 class Instruction {
   distance: number;
+
   heading: number;
+
   sign: number;
+
   interval: number[];
+
   text: string;
+
   time: number;
+
   street_name: string;
+
   last_heading: number | null;
 
   constructor({
@@ -81,14 +88,22 @@ class Instruction {
 
 class Path {
   distance: number;
+
   weight: number;
+
   time: number;
+
   transfers: number;
+
   points_encoded: boolean;
+
   bbox: number[];
+
   points: string;
+
   instructions: Instruction[];
-  snapped_waypoints: String;
+
+  snapped_waypoints: string;
 
   constructor({
     distance,
@@ -130,9 +145,13 @@ class Path {
 
 export class RouteResponse {
   license: string;
+
   code: string;
+
   messages: null | string;
+
   paths: Path[];
+
   constructor({
     license,
     code,

@@ -17,7 +17,7 @@ export enum Unit {
 
 const earthRadius = 6371008.8;
 
-export const factors: { [key in Unit]: number } = {
+export const factors: Record<Unit, number> = {
   [Unit.centimeters]: earthRadius * 100,
   [Unit.degrees]: earthRadius / 111325,
   [Unit.feet]: earthRadius * 3.28084,
@@ -34,8 +34,11 @@ export const factors: { [key in Unit]: number } = {
 
 export class NearestLatLngResult {
   point: LatLng;
+
   distance: number;
+
   index: number;
+
   location: number;
 
   constructor(
@@ -65,7 +68,7 @@ export class VietmapPolyline {
     line: LatLng[],
     point: LatLng,
     unit: Unit = Unit.kilometers,
-    isGetStop: boolean = false,
+    isGetStop = false,
   ): NearestLatLngResult | null {
     let nearest: NearestLatLngResult | null = null;
 
@@ -168,11 +171,11 @@ export class VietmapPolyline {
     }: { unit?: Unit; snapInputLatLngToResult?: boolean } = {},
   ): [LatLng[], LatLng[]] {
     const res = VietmapPolyline._nearestLatLngOnLine(line, point, unit, true);
-    let line1 = line.slice(0, res?.index ?? -1 + 1);
+    const line1 = line.slice(0, res?.index ?? -1 + 1);
     if (snapInputLatLngToResult) {
       line1.push(point);
     }
-    let line2 = line.slice(res?.index ?? -1 + 1, line.length);
+    const line2 = line.slice(res?.index ?? -1 + 1, line.length);
     if (snapInputLatLngToResult) {
       line2.unshift(point);
     }
@@ -226,9 +229,9 @@ export class VietmapPolyline {
   private static _bearingRaw(
     start: LatLng,
     end: LatLng,
-    calcFinal: boolean = false,
+    calcFinal = false,
   ): number {
-    if (calcFinal === true) {
+    if (calcFinal) {
       return VietmapPolyline._calculateFinalBearingRaw(start, end);
     }
 
@@ -247,7 +250,7 @@ export class VietmapPolyline {
   private static _bearing(
     start: LatLng,
     end: LatLng,
-    calcFinal: boolean = false,
+    calcFinal = false,
   ): number {
     return VietmapPolyline._bearingRaw(start, end, calcFinal);
   }

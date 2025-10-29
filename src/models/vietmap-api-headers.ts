@@ -3,7 +3,7 @@ export class VietmapApiHeaders {
 
   private _contentType = 'application/json';
 
-  public constructor(apiKey: string) {
+  constructor(apiKey: string) {
     this._apiKey = apiKey;
   }
 

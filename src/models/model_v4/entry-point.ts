@@ -8,7 +8,7 @@ export const entryPointSchema = z.object({
 export class EntryPoint {
   public refId: string;
   public name: string;
-  public constructor({ refId, name }: { refId: string; name: string }) {
+  constructor({ refId, name }: { refId: string; name: string }) {
     this.refId = refId;
     this.name = name;
     EntryPoint.constructorValidator().parse(this);

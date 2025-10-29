@@ -31,7 +31,18 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/explicit-member-accessibility": "error",
+    "@typescript-eslint/explicit-member-accessibility": [
+      "error",
+      {
+        "accessibility": "explicit",
+        "overrides": {
+          "constructors": "no-public",
+          "accessors": "explicit",
+          "methods": "off",
+          "properties": "off"
+        }
+      }
+    ],
     "no-duplicate-imports": "error",
     "lines-between-class-members": "error",
     "simple-import-sort/imports": [

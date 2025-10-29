@@ -17,19 +17,32 @@ const placeResponseSchema = z.object({
 });
 export class PlaceResponse {
   public display: string;
+
   public name: string;
+
   public hs_num: string;
+
   public street: string;
+
   public address: string;
+
   public city_id: number;
+
   public city: string;
+
   public district_id: number;
+
   public district: string;
+
   public ward_id: number;
+
   public ward: string;
+
   public lat: number;
+
   public lng: number;
-  public constructor({
+
+  constructor({
     display,
     name,
     hs_num,

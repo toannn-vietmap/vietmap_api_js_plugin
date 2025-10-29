@@ -18,7 +18,7 @@ export class Boundary {
 
   public full_name: string;
 
-  public constructor({
+  constructor({
     type,
     id,
     name,

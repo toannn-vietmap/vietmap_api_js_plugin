@@ -22,7 +22,8 @@ export class SearchResponse {
   public boundaries: Boundary[];
 
   public categories: string[];
-  public constructor({
+
+  constructor({
     ref_id,
     address,
     name,

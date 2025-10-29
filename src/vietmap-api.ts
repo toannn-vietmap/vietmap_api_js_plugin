@@ -28,7 +28,7 @@ import {
 export class VietmapApi {
   private _axios: AxiosInstance;
 
-  public constructor({
+  constructor({
     baseURL = 'https://maps.vietmap.vn',
   }: {
     baseURL?: string;

@@ -36,7 +36,7 @@ export class MigrateAddressRequestV4 {
     this.constructorValidatorV4().parse(this);
   }
 
-  public constructorValidatorV4() {
+  constructorValidatorV4() {
     if (
       this.migrate_type !== undefined &&
       this.migrate_type !== null &&

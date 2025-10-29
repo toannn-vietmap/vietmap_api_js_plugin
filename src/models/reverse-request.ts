@@ -14,7 +14,7 @@ export class ReverseRequest {
 
   public apikey?: string;
 
-  public constructor({
+  constructor({
     latitude,
     longitude,
     apikey,
