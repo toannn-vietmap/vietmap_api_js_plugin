@@ -27,7 +27,7 @@
     "@typescript-eslint/array-type": [
       "error",
       {
-        "default": "generic"
+        "default": "array"
       }
     ],
     "@typescript-eslint/no-explicit-any": "error",

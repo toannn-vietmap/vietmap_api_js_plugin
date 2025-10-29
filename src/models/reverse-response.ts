@@ -85,7 +85,7 @@ export class ReverseResponse {
     return this._ref_id;
   }
 
-  public get boundaries(): Array<Boundary> {
+  public get boundaries(): Boundary[] {
     return this._boundaries;
   }
 

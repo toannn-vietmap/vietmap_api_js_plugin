@@ -4,5 +4,5 @@ export interface TSearchResponse {
   address: string;
   name: string;
   display: string;
-  boundaries: Array<Boundary>;
+  boundaries: Boundary[];
 }
