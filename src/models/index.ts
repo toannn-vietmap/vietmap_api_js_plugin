@@ -9,3 +9,10 @@ export * from './place-response'
 export * from './place-request'
 export * from './vehicle-schema'
 export * from './tsp-request'
+export * from './model_v4/entry-point';
+export * from './model_v4/search-response-v4';
+export * from './model_v4/search-request-v4';
+export * from './model_v4/reverse-request-v4';
+export * from './model_v4/reverse-response-v4';
+export * from './model_v4/migrate-address-request-v4';
+export * from './model_v4/migrate-address-response-v4';
