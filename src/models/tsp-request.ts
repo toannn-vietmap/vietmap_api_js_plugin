@@ -1,17 +1,17 @@
 import { z } from 'zod';
-import { VehicleSchema } from '../models';
+import { VehicleType } from '../types/vehicle.type';
 
 const TSPRequestSchema = z.object({
-  points_encoded: z.boolean(),
-  vehicle: VehicleSchema,
   apikey: z.string(),
+  points_encoded: z.boolean(),
+  vehicle: z.nativeEnum(VehicleType),
   optimize: z.boolean(),
   round_trip: z.boolean(),
 });
 export class TSPRequest {
   public points_encoded: boolean;
 
-  public vehicle: 'car' | 'bike' | 'foot' | 'motorcycle';
+  public vehicle: VehicleType;
 
   public optimize: boolean;
 
@@ -22,13 +22,13 @@ export class TSPRequest {
   constructor({
     apikey,
     points_encoded = true,
-    vehicle = 'car',
+    vehicle = VehicleType.CAR,
     optimize = false,
     round_trip = true,
   }: {
     apikey: string;
     points_encoded: boolean;
-    vehicle: 'car' | 'bike' | 'foot' | 'motorcycle';
+    vehicle: VehicleType;
     optimize: boolean;
     round_trip: boolean;
   }) {

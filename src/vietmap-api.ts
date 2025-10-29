@@ -28,11 +28,7 @@ import {
 export class VietmapApi {
   private _axios: AxiosInstance;
 
-  constructor({
-    baseURL = 'https://maps.vietmap.vn',
-  }: {
-    baseURL?: string;
-  }) {
+  constructor({ baseURL = 'https://maps.vietmap.vn' }: { baseURL?: string }) {
     this._axios = Axios.create({
       baseURL,
     });
@@ -205,6 +201,8 @@ export class VietmapApi {
     const apikey = apiKey;
     return `https://maps.vietmap.vn/api/maps/light/styles.json?apikey=${apikey}`;
   }
+
+  
 
   public vietmapRasterTile(
     apikey: string,

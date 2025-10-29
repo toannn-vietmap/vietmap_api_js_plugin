@@ -22,6 +22,7 @@ import {
 } from './models';
 import { Polyline } from './helper';
 import { MigrateType } from './types';
+import { VehicleType } from './types/vehicle.type';
 dotenv.config();
 
 const envVariables = z
@@ -484,7 +485,7 @@ describe('Vietmap Api Module', () => {
         [10.801891047584164, 106.70660958023404],
       ],
       new TSPRequest({
-        vehicle: 'car',
+        vehicle: VehicleType.CAR,
         apikey: envVariables.VIETMAP_API_KEY,
         points_encoded: true,
         optimize: true,
