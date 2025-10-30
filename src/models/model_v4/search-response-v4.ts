@@ -5,6 +5,13 @@ import { EntryPoint, entryPointSchema } from './entry-point';
 import { z } from 'zod';
 import { TSJSON } from '../../types';
 
+/**
+ * Returns the Zod schema validator for SearchResponseV4
+ * Used internally for runtime validation of constructor arguments and JSON parsing
+ *
+ * @returns The Zod schema for validating search response parameters
+ * @internal
+ */
 const searchResponseV4Schema = z.object({
   ref_id: z.string(),
   address: z.string(),
@@ -24,13 +31,79 @@ const searchResponseV4Schema = z.object({
     .optional(),
 });
 
+/**
+ * Response model for Vietmap Search/Autocomplete API V4
+ *
+ * Contains location information found by search query, including address details,
+ * administrative boundaries, and optional entry points. The API responds with a list
+ * containing up to 10 places that match the search criteria.
+ *
+ * @see {@link https://maps.vietmap.vn/docs/map-api/geocode-version/geocode-v4/#response-description | API Response Documentation}
+ *
+ * @example
+ * ```typescript
+ * // Example response with new format (display_type=1)
+ * const response = {
+ *   ref_id: "geocode:RAkPcicmZ3d-NQhac2kADHYlbFAkBiEeAQAkCV0EXwdFbESDiMNbEzMK9ogWVwJMBRgNBwdRFFZWBlIdAQZcCVcFUB5TDwNbAlYDClJSBQIdVQk2QFhR",
+ *   distance: 0.06911172534949989,
+ *   address: "Phường 4,Quận 5,Thành Phố Hồ Chí Minh",
+ *   name: "197 Trần Phú",
+ *   display: "197 Trần Phú Phường 4,Quận 5,Thành Phố Hồ Chí Minh",
+ *   boundaries: [...],
+ *   categories: [],
+ *   entry_points: [],
+ *   data_new: { ... } // Contains alternate format data
+ * };
+ * ```
+ */
 export class SearchResponseV4 extends SearchResponse {
+  /**
+   * Distance from the search focus point to this result
+   * Measured in kilometers, helps rank results by proximity
+   *
+   * @example 0.06911172534949989 (approximately 69 meters from focus point)
+   */
   public distance?: number;
 
+  /**
+   * Array containing entry point information for this location
+   *
+   * Entry points provide specific access points or entrances for buildings,
+   * complexes, or locations with multiple points of interest. Available for
+   * special addresses like airports, hotels, shopping malls, etc.
+   *
+   * @see {@link https://maps.vietmap.vn/docs/map-api/autocomplete-version/autocomplete-v4/#response-description | Autocomplete API V4} for detailed entry point information
+   *
+   * @example
+   * ```typescript
+   * [
+   *   { ref_id: "entrance_main", name: "Main Entrance" },
+   *   { ref_id: "entrance_parking", name: "Parking Entrance" }
+   * ]
+   * ```
+   */
   public entry_points?: EntryPoint[];
 
+  /**
+   * Location object in the old administrative format (3 levels: ward, district, city)
+   *
+   * Available when using hybrid display types (display_type=5) that return the new format
+   * at top level and provide the old format as an alternative. Contains the same structure
+   * as the main response but with the traditional 3-level administrative divisions.
+   *
+   * Will be null for non-hybrid display types or when old format is not available.
+   */
   public data_old?: SearchResponseV4;
 
+  /**
+   * Location object in the new merged administrative format (2 levels: ward, city)
+   *
+   * Available when using hybrid display types (display_type=6) that return the old format
+   * at top level and provide the new format as an alternative. Contains the same structure
+   * as the main response but with the modernized 2-level administrative divisions.
+   *
+   * Will be null for non-hybrid display types or when new format is not available.
+   */
   public data_new?: SearchResponseV4;
 
   constructor({

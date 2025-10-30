@@ -6,3 +6,4 @@ export * from './place-response.type';
 export * from './result-display.type';
 export * from './search-response.type';
 export * from './vehicle.type';
+export * from './tilemap.type';

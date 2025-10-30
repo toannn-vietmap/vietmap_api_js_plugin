@@ -23,6 +23,7 @@ import {
   TPlaceResponse,
   Latitude,
   Longitude,
+  TileMapType,
 } from './types';
 
 export class VietmapApi {
@@ -202,7 +203,24 @@ export class VietmapApi {
     return `https://maps.vietmap.vn/api/maps/light/styles.json?apikey=${apikey}`;
   }
 
-  
+  public getVietmapTile(apikey: string, typeMap: TileMapType): string {
+    switch (typeMap) {
+      case TileMapType.VECTOR_DEFAULT:
+        return `https://maps.vietmap.vn/maps/styles/tm/style.json?apikey=${apikey}`;
+      case TileMapType.VECTOR_LIGHT:
+        return `https://maps.vietmap.vn/maps/styles/lm/style.json?apikey=${apikey}`;
+      case TileMapType.VECTOR_DARK:
+        return `https://maps.vietmap.vn/maps/styles/dm/style.json?apikey=${apikey}`;
+      case TileMapType.RASTER_DEFAULT:
+        return `https://maps.vietmap.vn/maps/styles/tm/tiles.json?apikey=${apikey}`;
+      case TileMapType.RASTER_LIGHT:
+        return `https://maps.vietmap.vn/maps/styles/lm/tiles.json?apikey=${apikey}`;
+      case TileMapType.RASTER_DARK:
+        return `https://maps.vietmap.vn/maps/styles/dm/tiles.json?apikey=${apikey}`;
+      default:
+        return `https://maps.vietmap.vn/maps/styles/tm/style.json?apikey=${apikey}`;
+    }
+  }
 
   public vietmapRasterTile(
     apikey: string,
