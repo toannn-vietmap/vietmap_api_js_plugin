@@ -1,6 +1,6 @@
 {
-  "name": "vietmap-api-test",
-  "version": "1.0.0",
+  "name": "@vietmap/vietmap-api",
+  "version": "1.1.3",
   "description": "Vietmap api package",
   "main": "./src/vietmap-api.ts",
   "repository": {
