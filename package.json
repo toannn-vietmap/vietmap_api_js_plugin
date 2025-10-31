@@ -5,7 +5,7 @@
   "main": "./src/vietmap-api.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vietmap-company/vietmap_api_react_native.git"
+    "url": "git+https://github.com/vietmap-company/vietmap_api_react_native.git"
   },
   "homepage": "https://maps.vietmap.vn",
   "keywords": [
