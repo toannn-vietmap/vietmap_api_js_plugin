@@ -1,28 +1,26 @@
 import * as dotenv from 'dotenv';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { z } from 'zod';
-import { VietmapApi } from './vietmap-api';
-
-import { VietmapPolyline, LatLng } from './helper/polyline_handle';
+import { LatLng, VietmapPolyline } from './helper/polyline_handle';
 import {
+  MigrateAddressRequestV4,
+  MigrateAddressResponseV4,
   PlaceRequest,
   PlaceResponse,
+  ReverseRequestV4,
   ReverseResponse,
+  ReverseResponseV4,
   RouteRequest,
   RouteResponse,
   SearchRequest,
-  SearchResponse,
-  TSPRequest,
   SearchRequestV4,
+  SearchResponse,
   SearchResponseV4,
-  ReverseRequestV4,
-  ReverseResponseV4,
-  MigrateAddressRequestV4,
-  MigrateAddressResponseV4,
+  TSPRequest,
 } from './models';
-import { Polyline } from './helper';
 import { MigrateType } from './types';
 import { VehicleType } from './types/vehicle.type';
+import { VietmapApi } from './vietmap-api';
 dotenv.config();
 
 const envVariables = z
@@ -33,7 +31,7 @@ const envVariables = z
 
 describe('Vietmap Api V4 Module', () => {
   let vietmapApi: VietmapApi;
-  var resSearchV4: SearchResponseV4[] = [];
+  let resSearchV4: SearchResponseV4[] = [];
 
   beforeAll(() => {
     vietmapApi = new VietmapApi({});

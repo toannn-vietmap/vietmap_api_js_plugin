@@ -5,7 +5,7 @@ import { VietmapApiError } from './vietmap-api-error';
  */
 export class NetworkError extends VietmapApiError {
   constructor(
-    message: string = 'Network request failed',
+    message = 'Network request failed',
     statusCode?: number,
     originalError?: Error,
   ) {

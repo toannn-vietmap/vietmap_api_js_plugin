@@ -5,7 +5,7 @@ import { VietmapApiError } from './vietmap-api-error';
  */
 export class AuthenticationError extends VietmapApiError {
   constructor(
-    message: string = 'Authentication failed. Please check your API key.',
+    message = 'Authentication failed. Please check your API key.',
     originalError?: Error,
   ) {
     super(message, 'AUTHENTICATION_ERROR', 401, originalError);

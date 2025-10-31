@@ -5,10 +5,11 @@ import { VietmapApiError } from './vietmap-api-error';
  */
 export class ValidationError extends VietmapApiError {
   public readonly field?: string;
+
   public readonly value?: any;
 
   constructor(
-    message: string = 'Request validation failed',
+    message = 'Request validation failed',
     field?: string,
     value?: any,
     originalError?: Error,

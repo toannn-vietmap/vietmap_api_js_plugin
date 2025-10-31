@@ -1,6 +1,6 @@
 import { Latitude, Longitude } from 'types';
-import { MigrateType } from '../../types/result-display.type';
 import { z } from 'zod';
+import { MigrateType } from '../../types/result-display.type';
 
 /**
  * Zod schema for validating MigrateAddressRequestV4 objects
@@ -15,13 +15,13 @@ const migrateAddressRequestV4Schema = z.object({
 
 /**
  * Request parameters for Vietmap Address Migration API V4
- * 
+ *
  * This API allows conversion between old and new Vietnamese address formats.
  * It can migrate from old format (e.g., "197 tran phu p4 q5") to new standardized format
  * (e.g., "197 Trần Phú, Phường 4, Quận 5, Thành phố Hồ Chí Minh") and vice versa.
- * 
+ *
  * @see {@link https://maps.vietmap.vn/docs/migrate-address/migrate-address-docs/ | Migrate Address API Documentation}
- * 
+ *
  * @example
  * ```typescript
  * // Migrate from old to new format (default)
@@ -29,7 +29,7 @@ const migrateAddressRequestV4Schema = z.object({
  *   apikey: "your-vietmap-api-key",
  *   text: "197 tran phu p4 q5"
  * });
- * 
+ *
  * // Migrate from new to old format (requires focus coordinate)
  * const request2 = new MigrateAddressRequestV4({
  *   apikey: "your-vietmap-api-key",
@@ -43,7 +43,7 @@ export class MigrateAddressRequestV4 {
   /**
    * API key provided by Vietmap for customer's account
    * Required for authentication with the Migrate Address API
-   * 
+   *
    * @example "your-vietmap-api-key-here"
    */
   public apikey: string;
@@ -52,7 +52,7 @@ export class MigrateAddressRequestV4 {
    * Specify the center of the search context as lat,lng coordinates
    * Required when migrate_type = 2 (NEW_TO_OLD conversion)
    * This helps provide geographic context for address disambiguation
-   * 
+   *
    * @example "10.758867,106.675566" (coordinates for Ho Chi Minh City center)
    */
   public focus?: string;
@@ -60,8 +60,8 @@ export class MigrateAddressRequestV4 {
   /**
    * Address input text in either old or new format
    * The address format to be migrated
-   * 
-   * @example 
+   *
+   * @example
    * - Old format: "197 tran phu p4 q5"
    * - New format: "197 Trần Phú, Phường 4, Quận 5, Thành phố Hồ Chí Minh"
    */
@@ -71,7 +71,7 @@ export class MigrateAddressRequestV4 {
    * Migration type specifying the direction of conversion
    * - OLD_TO_NEW (1): Convert from old format to new standardized format (default)
    * - NEW_TO_OLD (2): Convert from new format to old format (requires focus parameter)
-   * 
+   *
    * @default MigrateType.OLD_TO_NEW
    * @example MigrateType.OLD_TO_NEW or MigrateType.NEW_TO_OLD
    */

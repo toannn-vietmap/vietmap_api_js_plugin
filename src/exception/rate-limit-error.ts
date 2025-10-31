@@ -7,7 +7,7 @@ export class RateLimitError extends VietmapApiError {
   public readonly retryAfter?: number;
 
   constructor(
-    message: string = 'Rate limit exceeded',
+    message = 'Rate limit exceeded',
     retryAfter?: number,
     originalError?: Error,
   ) {

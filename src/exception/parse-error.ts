@@ -7,7 +7,7 @@ export class ParseError extends VietmapApiError {
   public readonly responseData?: any;
 
   constructor(
-    message: string = 'Failed to parse response data',
+    message = 'Failed to parse response data',
     responseData?: any,
     originalError?: Error,
   ) {

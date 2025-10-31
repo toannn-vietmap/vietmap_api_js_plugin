@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { ReverseRequest } from '../reverse-request';
-import { ReverseDisplayType } from '../../types/result-display.type';
 import { latitudeSchema, longitudeSchema } from '../../schema';
+import { ReverseDisplayType } from '../../types/result-display.type';
+import { ReverseRequest } from '../reverse-request';
 
 /**
  * Zod schema for validating ReverseRequestV4 objects

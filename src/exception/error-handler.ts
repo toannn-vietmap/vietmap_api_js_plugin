@@ -1,12 +1,12 @@
 import { AxiosError } from 'axios';
 import { ZodError } from 'zod';
-import { VietmapApiError } from './vietmap-api-error';
 import { AuthenticationError } from './authentication-error';
 import { NetworkError } from './network-error';
-import { ValidationError } from './validation-error';
+import { ParseError } from './parse-error';
 import { RateLimitError } from './rate-limit-error';
 import { ServerError } from './server-error';
-import { ParseError } from './parse-error';
+import { ValidationError } from './validation-error';
+import { VietmapApiError } from './vietmap-api-error';
 
 /**
  * Handles Axios errors and converts them to appropriate VietmapApi errors

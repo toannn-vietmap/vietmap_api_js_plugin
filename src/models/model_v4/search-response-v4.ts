@@ -1,9 +1,9 @@
+import { z } from 'zod';
 import { ZodType } from 'zod/v4';
+import { TSJSON } from '../../types';
 import { Boundary, boundaryResponseSchema } from '../boundary';
 import { SearchResponse } from '../search-response';
 import { EntryPoint, entryPointSchema } from './entry-point';
-import { z } from 'zod';
-import { TSJSON } from '../../types';
 
 /**
  * Returns the Zod schema validator for SearchResponseV4

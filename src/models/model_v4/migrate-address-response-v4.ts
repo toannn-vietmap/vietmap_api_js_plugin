@@ -1,6 +1,6 @@
+import { z } from 'zod';
 import { TSJSON } from '../../types';
 import { Boundary, boundaryResponseSchema } from '../boundary';
-import { z } from 'zod';
 
 /**
  * Zod schema for validating MigrateAddressResponseV4 objects

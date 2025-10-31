@@ -5,7 +5,7 @@ import { VietmapApiError } from './vietmap-api-error';
  */
 export class ServerError extends VietmapApiError {
   constructor(
-    message: string = 'Server error occurred',
+    message = 'Server error occurred',
     statusCode?: number,
     originalError?: Error,
   ) {

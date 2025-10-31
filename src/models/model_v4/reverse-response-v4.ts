@@ -1,9 +1,9 @@
+import { TSJSON } from 'types';
+import { z } from 'zod';
+import { Boundary } from '../boundary';
+import { boundaryResponseSchema } from '../boundary';
 import { ReverseResponse } from '../reverse-response';
 import { EntryPoint, entryPointSchema } from './entry-point';
-import { Boundary } from '../boundary';
-import { z } from 'zod';
-import { boundaryResponseSchema } from '../boundary';
-import { TSJSON } from 'types';
 
 /**
  * Zod schema validator for ReverseResponseV4

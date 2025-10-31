@@ -3,12 +3,14 @@
  */
 export class VietmapApiError extends Error {
   public readonly code: string;
+
   public readonly statusCode?: number;
+
   public readonly originalError?: Error;
 
   constructor(
     message: string,
-    code: string = 'VIETMAP_API_ERROR',
+    code = 'VIETMAP_API_ERROR',
     statusCode?: number,
     originalError?: Error,
   ) {

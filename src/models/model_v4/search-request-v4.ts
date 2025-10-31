@@ -1,7 +1,7 @@
-import { SearchDisplayType } from '../../types/result-display.type';
-import { SearchRequest } from '../search-request';
 import { z } from 'zod';
 import { layers } from '../../types/layer.type';
+import { SearchDisplayType } from '../../types/result-display.type';
+import { SearchRequest } from '../search-request';
 
 /**
  * Zod schema for validating SearchRequestV4 objects
