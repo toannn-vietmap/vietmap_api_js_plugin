@@ -1,5 +1,5 @@
 {
-  "name": "@vietmap/vietmap-api-test",
+  "name": "vietmap-api-test",
   "version": "1.0.0",
   "description": "Vietmap api package",
   "main": "./src/vietmap-api.ts",
