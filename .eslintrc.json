@@ -51,6 +51,31 @@
         "groups": [["^\\u0000", "^@?\\w", "^[^.]", "^\\."]]
       }
     ],
-    "simple-import-sort/exports": "error"
-  }
+    "simple-import-sort/exports": "error",
+    "@typescript-eslint/no-extraneous-class": "off",
+    "@typescript-eslint/no-unnecessary-condition": "warn",
+    "@typescript-eslint/restrict-template-expressions": [
+      "error",
+      {
+        "allowNumber": true,
+        "allowBoolean": true,
+        "allowAny": false,
+        "allowNullish": false,
+        "allowRegExp": false
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.ts", "src/tests/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-argument": "off"
+      }
+    }
+  ],
+  "ignorePatterns": ["dist/", "node_modules/", "*.js", "*.d.ts"]
 }

@@ -62,37 +62,6 @@ export class TestHelpers {
   }
 
   /**
-   * Execute test with standardized error logging
-   */
-  // static async executeTestWithLogging<T>(
-  //   testName: string,
-  //   testFn: () => Promise<T>,
-  //   expectError: boolean = false,
-  // ): Promise<T | Error> {
-  //   try {
-  //     const result = await testFn();
-  //     this.logTestResult(
-  //       testName,
-  //       expectError ? 'error' : 'success',
-  //       'success',
-  //       result,
-  //     );
-  //     return result;
-  //   } catch (error) {
-  //     this.logTestResult(
-  //       testName,
-  //       expectError ? 'error' : 'success',
-  //       'error',
-  //       error,
-  //     );
-  //     if (!expectError) {
-  //       throw error; // Re-throw if we weren't expecting an error
-  //     }
-  //     return error as Error;
-  //   }
-  // }
-
-  /**
    * Validate if a string looks like a valid refId
    */
   static isValidRefIdFormat(refId: string): boolean {
