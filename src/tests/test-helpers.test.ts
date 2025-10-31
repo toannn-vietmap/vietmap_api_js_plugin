@@ -33,35 +33,6 @@ export class TestHelpers {
   }
 
   /**
-   * Log test results with consistent formatting
-   */
-  static logTestResult(
-    testName: string,
-    expected: 'success' | 'error',
-    actual: 'success' | 'error',
-    data?: any,
-  ): void {
-    const timestamp = new Date().toISOString();
-    const emoji = expected === actual ? '✅' : '⚠️';
-    const status = expected === actual ? 'EXPECTED' : 'UNEXPECTED';
-
-    console.log(
-      `${emoji} [${timestamp}] ${testName}: ${status} ${actual.toUpperCase()}`,
-    );
-
-    if (data) {
-      if (actual === 'error') {
-        console.log(`   Error details:`, data);
-      } else {
-        console.log(
-          `   Result:`,
-          typeof data === 'object' ? JSON.stringify(data, null, 2) : data,
-        );
-      }
-    }
-  }
-
-  /**
    * Validate if a string looks like a valid refId
    */
   static isValidRefIdFormat(refId: string): boolean {

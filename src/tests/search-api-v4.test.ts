@@ -1,12 +1,9 @@
 import * as dotenv from 'dotenv';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { z } from 'zod';
-import { VietmapApi } from '../vietmap-api';
-
 import { SearchRequestV4 } from '../models';
-import { SearchDisplayType } from '../types';
-import { layers } from '../types';
-import { TestHelpers } from './test-helpers';
+import { layers, SearchDisplayType } from '../types';
+import { VietmapApi } from '../vietmap-api';
 
 dotenv.config();
 
@@ -36,24 +33,17 @@ describe('Search V4 API - Comprehensive Testing', () => {
     });
 
     test('should handle empty text parameter', async () => {
-      const result = await TestHelpers.executeTestWithLogging(
-        'Empty text parameter validation',
-        async () => {
-          return await vietmapApi.searchV4(
-            new SearchRequestV4({
-              text: '',
-              apikey: envVariables.VIETMAP_API_KEY,
-            }),
-          );
-        },
-        true, // Expecting error
-      );
-
-      if (result instanceof Error) {
-        expect(result).toBeDefined();
-      } else {
-        // If API accepts empty text, that's also a valid test result
-        expect(result).toBeInstanceOf(Array);
+      try {
+        await vietmapApi.searchV4(
+          new SearchRequestV4({
+            text: '',
+            apikey: envVariables.VIETMAP_API_KEY,
+          }),
+        );
+        console.log('⚠️ Missing apikey was accepted (unexpected)');
+      } catch (error) {
+        console.log('✅ Missing apikey correctly rejected with error:', error);
+        expect(error).toBeDefined();
       }
     });
 

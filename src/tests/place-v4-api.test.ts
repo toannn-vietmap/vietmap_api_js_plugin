@@ -1,13 +1,13 @@
 import * as dotenv from 'dotenv';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { z } from 'zod';
-import { VietmapApi } from '../vietmap-api';
 import { PlaceRequest, PlaceResponse } from '../models';
+import { VietmapApi } from '../vietmap-api';
 import {
   TEST_CONFIG,
   TestHelpers,
   validateTestEnvironment,
-} from './test-helpers';
+} from './test-helpers.test';
 
 dotenv.config();
 validateTestEnvironment();
@@ -122,7 +122,6 @@ describe('Place V4 API - Edge Cases & Comprehensive Testing', () => {
 
     test('should handle null/undefined refId', async () => {
       try {
-        // @ts-ignore - Testing runtime behavior
         await vietmapApi.placeV4(
           new PlaceRequest({
             refId: null as any,
@@ -360,7 +359,6 @@ describe('Place V4 API - Edge Cases & Comprehensive Testing', () => {
   describe('Constructor Validation Edge Cases', () => {
     test('should handle object with extra properties', async () => {
       try {
-        // @ts-ignore - Testing runtime behavior
         const requestData: any = {
           refId:
             'vm:ADDRESS:MM03541B04565B050B19510B52021F0407025B165351004C1B06055C045302570356000E51075F0263515A647F182119280B167254591048',
@@ -378,11 +376,11 @@ describe('Place V4 API - Edge Cases & Comprehensive Testing', () => {
 
     test('should handle object with wrong property types', async () => {
       try {
-        // @ts-ignore - Testing runtime behavior
         const request = new PlaceRequest({
           refId: 12345 as any, // Wrong type, should be string
           apikey: envVariables.VIETMAP_API_KEY,
         });
+        const result = await vietmapApi.placeV4(request);
         expect(false).toBe(true); // Should not reach here
       } catch (error) {
         expect(error).toBeDefined();
@@ -391,8 +389,9 @@ describe('Place V4 API - Edge Cases & Comprehensive Testing', () => {
 
     test('should handle completely empty object', async () => {
       try {
-        // @ts-ignore - Testing runtime behavior
+        // @ts-expect-error - Testing runtime behavior
         const request = new PlaceRequest({});
+        const result = await vietmapApi.placeV4(request);
         expect(false).toBe(true); // Should not reach here
       } catch (error) {
         expect(error).toBeDefined();
@@ -439,7 +438,7 @@ describe('Place V4 API - Edge Cases & Comprehensive Testing', () => {
 
       try {
         const results = await Promise.all(promises);
-        results.forEach((result, index) => {
+        results.forEach((result) => {
           expect(result).toBeDefined();
           // Note: Some refIds might not exist, so we don't strictly check for PlaceResponse
         });
@@ -635,7 +634,7 @@ describe('Place V4 API - Edge Cases & Comprehensive Testing', () => {
 
     test('should handle maximum API rate limits', async () => {
       // Test behavior when approaching rate limits
-      const requests = [];
+      const requests: Promise<any>[] = [];
       const refId =
         'vm:ADDRESS:MM03541B04565B050B19510B52021F0407025B165351004C1B06055C045302570356000E51075F0263515A647F182119280B167254591048';
 

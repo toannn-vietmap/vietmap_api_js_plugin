@@ -153,9 +153,9 @@ export class Polyline {
 
   private flipped(coords: [number, number][]): [number, number][] {
     const flipped: [number, number][] = [];
-    for (let i = 0; i < coords.length; i++) {
-      const coord = coords[i].slice();
-      flipped.push([coord[1], coord[0]]);
+    for (const coord of coords) {
+      const item = coord.slice();
+      flipped.push([item[1], item[0]]);
     }
     return flipped;
   }

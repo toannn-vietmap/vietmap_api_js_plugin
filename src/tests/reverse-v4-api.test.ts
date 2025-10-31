@@ -1,11 +1,9 @@
 import * as dotenv from 'dotenv';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { z } from 'zod';
-import { VietmapApi } from '../vietmap-api';
-
 import { ReverseRequestV4, ReverseResponseV4 } from '../models';
 import { ReverseDisplayType } from '../types';
-import { ca } from 'zod/v4/locales';
+import { VietmapApi } from '../vietmap-api';
 
 dotenv.config();
 
@@ -169,7 +167,7 @@ describe('Reverse V4 API - Comprehensive Edge Case Testing', () => {
   describe('Boundary Coordinates Testing', () => {
     test('should handle maximum valid latitude', async () => {
       try {
-        const result = await vietmapApi.reverseV4(
+        await vietmapApi.reverseV4(
           new ReverseRequestV4({
             lat: 90,
             lng: 0,
@@ -187,7 +185,7 @@ describe('Reverse V4 API - Comprehensive Edge Case Testing', () => {
 
     test('should handle minimum valid latitude', async () => {
       try {
-        const result = await vietmapApi.reverseV4(
+        await vietmapApi.reverseV4(
           new ReverseRequestV4({
             lat: -90,
             lng: 0,
@@ -205,7 +203,7 @@ describe('Reverse V4 API - Comprehensive Edge Case Testing', () => {
 
     test('should handle maximum valid longitude', async () => {
       try {
-        const result = await vietmapApi.reverseV4(
+        await vietmapApi.reverseV4(
           new ReverseRequestV4({
             lat: 0,
             lng: 180,
@@ -223,7 +221,7 @@ describe('Reverse V4 API - Comprehensive Edge Case Testing', () => {
 
     test('should handle minimum valid longitude', async () => {
       try {
-        const result = await vietmapApi.reverseV4(
+        await vietmapApi.reverseV4(
           new ReverseRequestV4({
             lat: 0,
             lng: -180,
