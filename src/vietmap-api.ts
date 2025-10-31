@@ -1,27 +1,34 @@
-import Axios, {
-  AxiosInstance,
-  AxiosResponse
-} from 'axios';
-
-import {PlaceRequest,
+import Axios, { AxiosInstance, AxiosResponse } from 'axios';
+import {
+  MigrateAddressRequestV4,
+  MigrateAddressResponseV4,
+  PlaceRequest,
+  PlaceResponse,
   ReverseRequest,
+  ReverseRequestV4,
   ReverseResponse,
-  SearchRequest,
+  ReverseResponseV4,
   RouteRequest,
-  SearchResponse,
   RouteResponse,
-  PlaceResponse, TSPRequest
+  SearchRequest,
+  SearchRequestV4,
+  SearchResponse,
+  SearchResponseV4,
+  TSPRequest,
 } from './models';
-import { TSJSON, TSearchResponse,TPlaceResponse, Latitude, Longitude } from './types'; 
+import {
+  Latitude,
+  Longitude,
+  TileMapType,
+  TPlaceResponse,
+  TSearchResponse,
+  TSJSON,
+} from './types';
 
 export class VietmapApi {
   private _axios: AxiosInstance;
 
-  public constructor({
-    baseURL = 'https://maps.vietmap.vn',
-  }: {
-    baseURL?: string;
-  }) {
+  constructor({ baseURL = 'https://maps.vietmap.vn' }: { baseURL?: string }) {
     this._axios = Axios.create({
       baseURL,
     });
@@ -29,11 +36,9 @@ export class VietmapApi {
 
   public search(inputs: SearchRequest): Promise<SearchResponse[]> {
     return this._axios
-      .get<
-        TSJSON,
-        AxiosResponse<TSJSON[]>,
-        SearchRequest
-      >('/api/search/v3', { params: inputs })
+      .get<TSJSON, AxiosResponse<TSJSON[]>, SearchRequest>('/api/search/v3', {
+        params: inputs,
+      })
       .then((response: AxiosResponse<TSJSON[]>) => {
         return response.data.map((item: TSJSON) =>
           SearchResponse.fromJSON(item),
@@ -41,6 +46,17 @@ export class VietmapApi {
       });
   }
 
+  public searchV4(inputs: SearchRequestV4): Promise<SearchResponseV4[]> {
+    return this._axios
+      .get<TSJSON, AxiosResponse<TSJSON[]>, SearchRequestV4>('/api/search/v4', {
+        params: inputs,
+      })
+      .then((response: AxiosResponse<TSJSON[]>) => {
+        return response.data.map((item: TSJSON) => {
+          return SearchResponseV4.fromJson(item);
+        });
+      });
+  }
 
   public place(inputs: PlaceRequest): Promise<PlaceResponse> {
     return this._axios
@@ -49,6 +65,18 @@ export class VietmapApi {
         AxiosResponse<TSJSON>,
         PlaceRequest
       >('/api/place/v3', { params: inputs })
+      .then((response: AxiosResponse<TSJSON>) => {
+        return PlaceResponse.fromJSON(response.data);
+      });
+  }
+
+  public placeV4(inputs: PlaceRequest): Promise<PlaceResponse> {
+    return this._axios
+      .get<
+        TPlaceResponse,
+        AxiosResponse<TSJSON>,
+        PlaceRequest
+      >('/api/place/v4', { params: inputs })
       .then((response: AxiosResponse<TSJSON>) => {
         return PlaceResponse.fromJSON(response.data);
       });
@@ -68,6 +96,22 @@ export class VietmapApi {
       });
   }
 
+  public autoCompleteSearchV4(
+    inputs: SearchRequestV4,
+  ): Promise<SearchResponseV4[]> {
+    return this._axios
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON[]>,
+        SearchRequestV4
+      >('/api/autocomplete/v4', { params: inputs })
+      .then((response: AxiosResponse<TSJSON[]>) => {
+        return response.data.map((item: TSJSON) =>
+          SearchResponseV4.fromJson(item),
+        );
+      });
+  }
+
   public reverse(inputs: ReverseRequest): Promise<ReverseResponse> {
     return this._axios
       .get<TSJSON, AxiosResponse<TSJSON[]>>(`/api/reverse/v3`, {
@@ -77,9 +121,24 @@ export class VietmapApi {
           apikey: inputs.apikey,
         },
       })
-      .then((response: AxiosResponse<TSJSON[]>) =>
-        ReverseResponse.fromJSON(response.data[0]),
-      );
+      .then((response: AxiosResponse<TSJSON[]>) => {
+        return ReverseResponse.fromJSON(response.data[0]);
+      });
+  }
+
+  public reverseV4(inputs: ReverseRequestV4): Promise<ReverseResponseV4> {
+    return this._axios
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON[]>,
+        ReverseRequestV4
+      >(`/api/reverse/v4`, { params: inputs })
+      .then((response: AxiosResponse<TSJSON[]>) => {
+        if (response.data.length === 0) {
+          throw new Error('No data returned from reverse geocoding API');
+        }
+        return ReverseResponseV4.fromJSON(response.data[0]);
+      });
   }
 
   private convertPointsToUrlParams(points: [Latitude, Longitude][]): string {
@@ -97,32 +156,43 @@ export class VietmapApi {
     points: [Latitude, Longitude][],
     inputs?: RouteRequest,
   ): Promise<RouteResponse> {
-    var pointReq = this.convertPointsToUrlParams(points);
+    const pointReq = this.convertPointsToUrlParams(points);
     return this._axios
       .get<
         TSJSON,
         AxiosResponse<TSJSON>
       >(`/api/route?api-version=1.1${pointReq}`, { params: inputs })
       .then((response: AxiosResponse<TSJSON>) => {
-        return  RouteResponse.fromJSON(response.data)
-        
+        return RouteResponse.fromJSON(response.data);
       });
   }
-
 
   public tsp(
     points: [Latitude, Longitude][],
     inputs?: TSPRequest,
   ): Promise<RouteResponse> {
-    var pointReq = this.convertPointsToUrlParams(points);
+    const pointReq = this.convertPointsToUrlParams(points);
     return this._axios
       .get<
         TSJSON,
         AxiosResponse<TSJSON>
       >(`/api/tsp?api-version=1.1${pointReq}`, { params: inputs })
       .then((response: AxiosResponse<TSJSON>) => {
-        return  RouteResponse.fromJSON(response.data)
-        
+        return RouteResponse.fromJSON(response.data);
+      });
+  }
+
+  public migrateAddress(
+    inputs: MigrateAddressRequestV4,
+  ): Promise<MigrateAddressResponseV4> {
+    return this._axios
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON>,
+        MigrateAddressRequestV4
+      >('/api/migrate-address/v3', { params: inputs })
+      .then((response: AxiosResponse<TSJSON>) => {
+        return MigrateAddressResponseV4.fromJSON(response.data);
       });
   }
 
@@ -130,6 +200,26 @@ export class VietmapApi {
     const apikey = apiKey;
     return `https://maps.vietmap.vn/api/maps/light/styles.json?apikey=${apikey}`;
   }
+
+  public getVietmapTile(apikey: string, typeMap: TileMapType): string {
+    switch (typeMap) {
+      case TileMapType.VECTOR_DEFAULT:
+        return `https://maps.vietmap.vn/maps/styles/tm/style.json?apikey=${apikey}`;
+      case TileMapType.VECTOR_LIGHT:
+        return `https://maps.vietmap.vn/maps/styles/lm/style.json?apikey=${apikey}`;
+      case TileMapType.VECTOR_DARK:
+        return `https://maps.vietmap.vn/maps/styles/dm/style.json?apikey=${apikey}`;
+      case TileMapType.RASTER_DEFAULT:
+        return `https://maps.vietmap.vn/maps/styles/tm/tiles.json?apikey=${apikey}`;
+      case TileMapType.RASTER_LIGHT:
+        return `https://maps.vietmap.vn/maps/styles/lm/tiles.json?apikey=${apikey}`;
+      case TileMapType.RASTER_DARK:
+        return `https://maps.vietmap.vn/maps/styles/dm/tiles.json?apikey=${apikey}`;
+      default:
+        return `https://maps.vietmap.vn/maps/styles/tm/style.json?apikey=${apikey}`;
+    }
+  }
+
   public vietmapRasterTile(
     apikey: string,
     mode?: 'default' | 'light' | 'dark',

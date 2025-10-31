@@ -1,20 +1,26 @@
 import * as dotenv from 'dotenv';
 import { beforeAll, describe, expect, test } from 'vitest';
 import { z } from 'zod';
-import { VietmapApi } from './vietmap-api';
-
-import { VietmapPolyline, LatLng } from './helper/polyline_handle';
+import { LatLng, VietmapPolyline } from './helper/polyline_handle';
 import {
+  MigrateAddressRequestV4,
+  MigrateAddressResponseV4,
   PlaceRequest,
   PlaceResponse,
+  ReverseRequestV4,
   ReverseResponse,
+  ReverseResponseV4,
   RouteRequest,
   RouteResponse,
   SearchRequest,
+  SearchRequestV4,
   SearchResponse,
+  SearchResponseV4,
   TSPRequest,
 } from './models';
-import { Polyline } from './helper';
+import { MigrateType } from './types';
+import { VehicleType } from './types/vehicle.type';
+import { VietmapApi } from './vietmap-api';
 dotenv.config();
 
 const envVariables = z
@@ -22,6 +28,110 @@ const envVariables = z
     VIETMAP_API_KEY: z.string(),
   })
   .parse(process.env);
+
+describe('Vietmap Api V4 Module', () => {
+  let vietmapApi: VietmapApi;
+  let resSearchV4: SearchResponseV4[] = [];
+
+  beforeAll(() => {
+    vietmapApi = new VietmapApi({});
+  });
+
+  test('Search V4 api', async () => {
+    console.log('VIETMAP_API_KEY:', envVariables.VIETMAP_API_KEY);
+    resSearchV4 = await vietmapApi.searchV4(
+      new SearchRequestV4({
+        text: '103 duong so 4 khu pho 3 phuong linh xuan thanh pho thu duc',
+        apikey: envVariables.VIETMAP_API_KEY,
+      }),
+    );
+    console.log('Search V4 Result:', resSearchV4);
+    console.log(
+      `
+    
+      ===================================================
+      
+    `,
+    );
+    expect(resSearchV4).toBeInstanceOf(Array);
+  });
+
+  test('Place V4 api', async () => {
+    const res = await vietmapApi.placeV4(
+      new PlaceRequest({
+        refId:
+          'vm:ADDRESS:MM03541B04565B050B19510B52021F0407025B165351004C1B06055C045302570356000E51075F0263515A647F182119280B167254591048',
+        apikey: envVariables.VIETMAP_API_KEY,
+      }),
+    );
+    console.log('Place V4 Result:', res);
+    console.log(
+      `
+    
+      ===================================================
+      
+    `,
+    );
+    expect(res).toBeInstanceOf(PlaceResponse);
+  });
+
+  test('Auto Complete V4 api', async () => {
+    resSearchV4 = await vietmapApi.autoCompleteSearchV4(
+      new SearchRequestV4({
+        text: '103 duong so 4 khu pho 3 phuong linh xuan thanh pho thu duc',
+        apikey: envVariables.VIETMAP_API_KEY,
+      }),
+    );
+    console.log('Auto Complete V4 Result:', resSearchV4);
+    console.log(
+      `
+
+      ===================================================
+
+    `,
+    );
+    expect(resSearchV4).toBeInstanceOf(Array);
+  });
+
+  test('Reverse V4 api', async () => {
+    const res = await vietmapApi.reverseV4(
+      new ReverseRequestV4({
+        lat: 10.759094790020278,
+        lng: 106.67596571338835,
+        apikey: envVariables.VIETMAP_API_KEY,
+      }),
+    );
+    console.log('Reverse V4 Result:', res);
+    console.log(
+      `
+
+      ===================================================
+
+    `,
+    );
+    expect(res).toBeInstanceOf(ReverseResponseV4);
+  });
+
+  test('Migrate address V3 API', async () => {
+    const res = await vietmapApi.migrateAddress(
+      new MigrateAddressRequestV4({
+        text: '197 tran phu p4 q5',
+        focus: [10.75887508, 106.67538868],
+        apikey: envVariables.VIETMAP_API_KEY,
+        migrate_type: MigrateType.NEW_TO_OLD,
+      }),
+    );
+    console.log('Migrate address V3 API:', res);
+    console.log(
+      `
+
+      ===================================================
+
+    `,
+    );
+    expect(res).toBeInstanceOf(MigrateAddressResponseV4);
+  });
+});
 
 describe('Vietmap Api Module', () => {
   let vietmapApi: VietmapApi;
@@ -216,7 +326,7 @@ describe('Vietmap Api Module', () => {
     const [line1, line2] = VietmapPolyline.splitRouteByLatLng(
       line as LatLng[],
       point as LatLng,
-    ); 
+    );
     expect(line1).toEqual([
       [106.70594000000001, 10.79631],
       [106.70664000000001, 10.79593],
@@ -307,8 +417,8 @@ describe('Vietmap Api Module', () => {
   });
 
   test('Reverse api', async () => {
-    const latitude = 35.71619;
-    const longitude = 51.36247;
+    const latitude = 17.182129434069452;
+    const longitude = 106.84039288077791;
     const apikey = envVariables.VIETMAP_API_KEY;
     const res = await vietmapApi.reverse({
       latitude,
@@ -365,7 +475,6 @@ describe('Vietmap Api Module', () => {
     );
     expect(res).toBeInstanceOf(PlaceResponse);
   });
- 
 
   test('TSP api', async () => {
     const res = await vietmapApi.tsp(
@@ -374,7 +483,7 @@ describe('Vietmap Api Module', () => {
         [10.801891047584164, 106.70660958023404],
       ],
       new TSPRequest({
-        vehicle: 'car',
+        vehicle: VehicleType.CAR,
         apikey: envVariables.VIETMAP_API_KEY,
         points_encoded: true,
         optimize: true,

@@ -1,6 +1,6 @@
 {
-  "name": "@vietmap/vietmap-api",
-  "version": "1.1.2",
+  "name": "@vietmap/vietmap-api-test",
+  "version": "1.0.0",
   "description": "Vietmap api package",
   "main": "./src/vietmap-api.ts",
   "repository": {
@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
-    "@typescript-eslint/eslint-plugin": "^6.19.0",
-    "@typescript-eslint/parser": "^6.19.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
