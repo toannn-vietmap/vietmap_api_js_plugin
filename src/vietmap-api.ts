@@ -1,5 +1,4 @@
 import Axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { handleApiError } from './exception';
 import {
   MigrateAddressRequestV4,
   MigrateAddressResponseV4,
@@ -41,16 +40,9 @@ export class VietmapApi {
         params: inputs,
       })
       .then((response: AxiosResponse<TSJSON[]>) => {
-        try {
-          return response.data.map((item: TSJSON) =>
-            SearchResponse.fromJSON(item),
-          );
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return response.data.map((item: TSJSON) =>
+          SearchResponse.fromJSON(item),
+        );
       });
   }
 
@@ -60,72 +52,47 @@ export class VietmapApi {
         params: inputs,
       })
       .then((response: AxiosResponse<TSJSON[]>) => {
-        try {
-          return response.data.map((item: TSJSON) => {
-            return SearchResponseV4.fromJson(item);
-          });
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return response.data.map((item: TSJSON) => {
+          return SearchResponseV4.fromJson(item);
+        });
       });
   }
 
   public place(inputs: PlaceRequest): Promise<PlaceResponse> {
     return this._axios
-      .get<TPlaceResponse, AxiosResponse<TSJSON>, PlaceRequest>(
-        '/api/place/v3',
-        { params: inputs },
-      )
+      .get<
+        TPlaceResponse,
+        AxiosResponse<TSJSON>,
+        PlaceRequest
+      >('/api/place/v3', { params: inputs })
       .then((response: AxiosResponse<TSJSON>) => {
-        try {
-          return PlaceResponse.fromJSON(response.data);
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return PlaceResponse.fromJSON(response.data);
       });
   }
 
   public placeV4(inputs: PlaceRequest): Promise<PlaceResponse> {
     return this._axios
-      .get<TPlaceResponse, AxiosResponse<TSJSON>, PlaceRequest>(
-        '/api/place/v4',
-        { params: inputs },
-      )
+      .get<
+        TPlaceResponse,
+        AxiosResponse<TSJSON>,
+        PlaceRequest
+      >('/api/place/v4', { params: inputs })
       .then((response: AxiosResponse<TSJSON>) => {
-        try {
-          return PlaceResponse.fromJSON(response.data);
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return PlaceResponse.fromJSON(response.data);
       });
   }
 
   public autoCompleteSearch(inputs: SearchRequest): Promise<SearchResponse[]> {
     return this._axios
-      .get<TSearchResponse, AxiosResponse<TSJSON[]>, SearchRequest>(
-        '/api/autocomplete/v3',
-        { params: inputs },
-      )
+      .get<
+        TSearchResponse,
+        AxiosResponse<TSJSON[]>,
+        SearchRequest
+      >('/api/autocomplete/v3', { params: inputs })
       .then((response: AxiosResponse<TSJSON[]>) => {
-        try {
-          return response.data.map((item: TSJSON) =>
-            SearchResponse.fromJSON(item),
-          );
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return response.data.map((item: TSJSON) =>
+          SearchResponse.fromJSON(item),
+        );
       });
   }
 
@@ -133,21 +100,15 @@ export class VietmapApi {
     inputs: SearchRequestV4,
   ): Promise<SearchResponseV4[]> {
     return this._axios
-      .get<TSJSON, AxiosResponse<TSJSON[]>, SearchRequestV4>(
-        '/api/autocomplete/v4',
-        { params: inputs },
-      )
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON[]>,
+        SearchRequestV4
+      >('/api/autocomplete/v4', { params: inputs })
       .then((response: AxiosResponse<TSJSON[]>) => {
-        try {
-          return response.data.map((item: TSJSON) =>
-            SearchResponseV4.fromJson(item),
-          );
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return response.data.map((item: TSJSON) =>
+          SearchResponseV4.fromJson(item),
+        );
       });
   }
 
@@ -161,32 +122,22 @@ export class VietmapApi {
         },
       })
       .then((response: AxiosResponse<TSJSON[]>) => {
-        try {
-          return ReverseResponse.fromJSON(response.data[0]);
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return ReverseResponse.fromJSON(response.data[0]);
       });
   }
 
   public reverseV4(inputs: ReverseRequestV4): Promise<ReverseResponseV4> {
     return this._axios
-      .get<TSJSON, AxiosResponse<TSJSON[]>, ReverseRequestV4>(
-        `/api/reverse/v4`,
-        { params: inputs },
-      )
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON[]>,
+        ReverseRequestV4
+      >(`/api/reverse/v4`, { params: inputs })
       .then((response: AxiosResponse<TSJSON[]>) => {
-        try {
-          return ReverseResponseV4.fromJSON(response.data[0]);
-        } catch (error) {
-          handleApiError(error);
+        if (response.data.length === 0) {
+          throw new Error('No data returned from reverse geocoding API');
         }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return ReverseResponseV4.fromJSON(response.data[0]);
       });
   }
 
@@ -207,19 +158,12 @@ export class VietmapApi {
   ): Promise<RouteResponse> {
     const pointReq = this.convertPointsToUrlParams(points);
     return this._axios
-      .get<TSJSON, AxiosResponse<TSJSON>>(
-        `/api/route?api-version=1.1${pointReq}`,
-        { params: inputs },
-      )
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON>
+      >(`/api/route?api-version=1.1${pointReq}`, { params: inputs })
       .then((response: AxiosResponse<TSJSON>) => {
-        try {
-          return RouteResponse.fromJSON(response.data);
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return RouteResponse.fromJSON(response.data);
       });
   }
 
@@ -229,19 +173,12 @@ export class VietmapApi {
   ): Promise<RouteResponse> {
     const pointReq = this.convertPointsToUrlParams(points);
     return this._axios
-      .get<TSJSON, AxiosResponse<TSJSON>>(
-        `/api/tsp?api-version=1.1${pointReq}`,
-        { params: inputs },
-      )
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON>
+      >(`/api/tsp?api-version=1.1${pointReq}`, { params: inputs })
       .then((response: AxiosResponse<TSJSON>) => {
-        try {
-          return RouteResponse.fromJSON(response.data);
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return RouteResponse.fromJSON(response.data);
       });
   }
 
@@ -249,19 +186,13 @@ export class VietmapApi {
     inputs: MigrateAddressRequestV4,
   ): Promise<MigrateAddressResponseV4> {
     return this._axios
-      .get<TSJSON, AxiosResponse<TSJSON>, MigrateAddressRequestV4>(
-        '/api/migrate-address/v3',
-        { params: inputs },
-      )
+      .get<
+        TSJSON,
+        AxiosResponse<TSJSON>,
+        MigrateAddressRequestV4
+      >('/api/migrate-address/v3', { params: inputs })
       .then((response: AxiosResponse<TSJSON>) => {
-        try {
-          return MigrateAddressResponseV4.fromJSON(response.data);
-        } catch (error) {
-          handleApiError(error);
-        }
-      })
-      .catch((error) => {
-        handleApiError(error);
+        return MigrateAddressResponseV4.fromJSON(response.data);
       });
   }
 
