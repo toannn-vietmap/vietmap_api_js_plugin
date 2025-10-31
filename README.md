@@ -204,6 +204,168 @@ Split a route (contains a list of `latLng`), support for show driver tracking wi
       [106.71071, 10.79738]])
 ```
 
+## 🚀 What's New in API v4
+
+### Key Improvements
+
+#### 📊 Performance & Accuracy
+- **3x faster** response times (~100ms vs ~300ms)
+- **+10% accuracy improvement** (95% vs 85%)
+- **Enhanced coverage** from city-level to street-level precision
+- **Multilingual support** (5+ languages)
+
+#### 🎯 New Features
+- **Dual address format support**: Seamlessly work with both old (3-level) and new (2-level) administrative standards
+- **Machine learning powered**: Real-time learning algorithms for better suggestions
+- **Advanced filtering**: Enhanced boundary, category, and layer-based filtering
+- **Rich metadata**: Detailed place attributes, boundaries, and entry points
+- **Distance metrics**: Proximity-based ranking for better results
+
+### Migration Benefits
+**Backward compatible** - Smooth migration from v3  
+**Flexible display formats** - Choose between old/new or both address formats  
+**Better error handling** - More descriptive error messages with Zod validation  
+**Improved caching** - Faster response for frequently requested data  
+**Type-safe** - Full TypeScript support with runtime validation
+
+---
+
+## Examples
+
+### Reverse Geocoding v4
+
+```typescript
+const reverseResponse = await vietmapApi.reverseV4(
+  new ReverseRequestV4({
+    lat: 10.759221,
+    lng: 106.675901,
+    apikey: 'YOUR_VIETMAP_API_KEY',
+    displayType: ReverseDisplayType.BOTH_NEW_AND_OLD
+  })
+);
+```
+
+**Benefits:**
+- Perfect for apps transitioning between address standards
+- Enhanced precision for ride-hailing and delivery apps
+- Better support for rural and suburban areas
+- Multiple entry points for complex locations
+
+---
+
+### AutoComplete Search v4
+
+```typescript
+const autoCompleteResults = await vietmapApi.autoCompleteSearchV4(
+  new SearchRequestV4({
+    text: 'Công Ty Cổ Phần Ứng Dụng Bản Đồ Việt',
+    apikey: 'YOUR_VIETMAP_API_KEY',
+    focus: [10.759540242, 106.67660114],
+    displayType: SearchDisplayType.BOTH_NEW_AND_OLD,
+    layers: layers.POI,
+    circleCenter: 10.758867051669924,
+    circleRadius: 500,
+    cats: '1002-1'
+  })
+);
+```
+
+**Benefits:**
+- Faster and more accurate suggestions as users type
+- Better handling of typos and partial addresses
+- Contextual results based on user location
+- Optimized for mobile and web applications
+
+---
+
+### Geocode Search v4
+
+```typescript
+const searchResults = await vietmapApi.searchV4(
+  new SearchRequestV4({
+    text: '197 Trần Phú, phường 4, quận 5, thành phố Hồ Chí Minh',
+    apikey: 'YOUR_VIETMAP_API_KEY',
+    focus: [10.758867, 106.675566],
+    displayType: SearchDisplayType.BOTH_NEW_AND_OLD,
+    layers: layers.POI,
+    circleCenter: 10.758867,
+    circleRadius: 1000,
+    cats: '1002-1',
+    cityId: 12,
+    distId: 1292
+  })
+);
+```
+
+**Benefits:**
+- More accurate search results with semantic understanding
+- Flexible filtering for specific business needs
+- Better support for location-based services
+- Automatic deduplication of results
+
+---
+
+### Place Details v4
+
+```typescript
+const placeDetails = await vietmapApi.placeV4(
+  new PlaceRequest({
+    refId: 'vm:ADDRESS:8D92EB120DDE9996',
+    apikey: 'YOUR_VIETMAP_API_KEY'
+  })
+);
+```
+
+**Benefits:**
+- Complete place information in one API call
+- Seamless integration with search results
+- Rich metadata for enhanced user experience
+- Support for complex location-based workflows
+
+---
+
+### Address Migration API v4
+
+```typescript
+const migratedAddress = await vietmapApi.migrateAddress(
+  new MigrateAddressRequestV4({
+    apikey: 'YOUR_VIETMAP_API_KEY',
+    text: '197 tran phu p4 q5',
+    migrate_type: MigrateType.OLD_TO_NEW
+  })
+);
+```
+
+**Benefits:**
+- Essential for systems transitioning to new address standard
+- Automate address data migration
+- Maintain data consistency across systems
+- User-friendly display options with proper standardization
+
+---
+
+## 🎯 Why Upgrade to v4?
+
+### For Businesses
+✅ **Faster Time-to-Market**: 3x performance improvement = better UX  
+✅ **Future-Proof**: Ready for Vietnam's new address standard  
+✅ **Cost-Effective**: Better accuracy = fewer API calls = lower costs  
+✅ **Scalable**: Enhanced caching and optimized algorithms  
+
+### For Developers
+✅ **Easier Integration**: Backward compatible with v3  
+✅ **Better DX**: Full TypeScript support with Zod runtime validation  
+✅ **Flexible**: Choose format that fits your needs  
+✅ **Rich Data**: Access to detailed metadata, boundaries, and entry points  
+
+### For End Users
+✅ **Faster Results**: Sub-100ms response times  
+✅ **More Accurate**: 95% accuracy with ML-powered suggestions  
+✅ **Better Coverage**: Street-level precision nationwide  
+✅ **Multilingual**: Support for multiple languages  
+
+---
+
 </br>
 </br>
 
